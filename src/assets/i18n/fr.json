@@ -127,7 +127,8 @@
         "RUSSIAN": "Русский",
         "GERMAN": "Deutsch",
         "SPANISH": "Español",
-        "CHINESE": "简体中文"
+        "CHINESE": "简体中文",
+        "PORTUGUES": "Português(BR)"
     },
     "YES": "Oui",
     "NO": "Non"

@@ -1,0 +1,135 @@
+{
+    "CLOSE": "Fechar",
+    "HOME": {
+        "TITLE": "ESX-IPTV",
+        "SUBTITLE": "Selecione uma lista de reprodução da lista ou adicione uma nova lista de reprodução via upload de arquivo ou via url",
+        "TABS": {
+            "RECENTLY_ADDED": "Playlist adds recentemente",
+            "FILE_UPLOAD": "Add via upload de arquivo",
+            "URL_UPLOAD": "Add via URL",
+            "TEXT_IMPORT": "Importar como texto"
+        },
+        "PLAYLISTS": {
+            "NO_PLAYLISTS": "Nenhuma lista de reprodução foi adicionada",
+            "ADD_FIRST": "Adicione sua primeira lista de reprodução da outra guia",
+            "ADDED_VIA_URL": "Adicionado via upload de URL. URL:",
+            "ADDED_VIA_FILE": "Adicionado via upload de arquivo",
+            "CHANNELS": "Canais",
+            "ADDED": "Adicionado",
+            "SHOW_DETAILS": "Mostrar detalhes da playlist",
+            "REMOVE": "Remover lista de reprodução",
+            "INFO_DIALOG": {
+                "PLAYLIST_DETAILS": "Detalhes da lista de reprodução",
+                "TITLE": "Título",
+                "FROM_URL": "Adicionado a partir da URL",
+                "IMPORT_DATE": "Data de importação",
+                "CHANNELS": "Número de canais",
+                "CLOSE": "Fechar",
+                "SAVE": "Salve",
+                "USER_AGENT": "Agente de usuário",
+                "ORIGINAL_FILENAME": "Nome do arquivo original",
+                "FILE_PATH": "Caminho do arquivo",
+                "UPDATE_FAILED": "Falha na última atualização da playlist",
+                "AUTO_UPDATE": "Atualização automática",
+                "AUTO_UPDATE_DESCRIPTION": "Se a função de atualização automática estiver ativada, a lista de reprodução será atualizada automaticamente sempre que o aplicativo for iniciado.",
+                "CUSTOM_USER_AGENT": "Alguns provedores de IPTV precisam de um agente de usuário específico para reproduzir sua lista de reprodução."
+            },
+            "REMOVE_DIALOG": {
+                "TITLE": "Remover playlist",
+                "MESSAGE": "Tem certeza de que deseja excluir esta playlist completamente?"
+            },
+            "UPDATED": "Atualizado",
+            "REFRESH": "Atualizar lista de reprodução",
+            "GLOBAL_FAVORITES": "Favoritos globais",
+            "GLOBAL_FAVORITES_DESCRIPTION": "Lista de reprodução gerada automaticamente com favoritos agregados de todas as listas de reprodução",
+            "MY_PLAYLISTS": "Minha playlists"
+        },
+        "FILE_UPLOAD": {
+            "DRAG_DROP": "Arraste e solte arquivos aqui",
+            "OR": "ou",
+            "CHOOSE_PLAYLIST": "Escolha uma playlist"
+        },
+        "URL_UPLOAD": {
+            "PLAYLIST_URL": "Playlist URL (m3u, m3u8)",
+            "ADD_PLAYLIST": "Add playlist"
+        },
+        "TEXT_IMPORT": {
+            "LABEL": "Inserir lista de reprodução m3u(8) como texto",
+            "BUTTON_LABEL": "Importar"
+        }
+    },
+    "SETTINGS": {
+        "TITLE": "Definições / ESX-IPTV",
+        "SUBTITLE": "Alterar a configuração do aplicativo",
+        "DESCRIPTION": "Por favor, adapte as opções da lista abaixo e confirme com um botão salvar",
+        "EPG_URL_LABEL": "URL do EPG (*.xml ou *.xml.gz)",
+        "EPG_URL_PLACEHOLDER": "Insira um URL",
+        "REFRESH_EPG": "Atualizar EPG",
+        "VIDEO_PLAYER_LABEL": "Video player",
+        "VIDEO_PLAYER_PLACEHOLDER": "Selecione uma opção",
+        "VERSION": "Versão",
+        "SAVE_CHANGES": "Salvar alterações",
+        "BACK_TO_HOME": "Voltar para home",
+        "NEW_VERSION_AVAILABLE": "Há uma nova versão disponível",
+        "LATEST_VERSION": "Você está usando a versão mais recente",
+        "LANGUAGE": "Idioma",
+        "SETTINGS_SAVED": "Sucesso! A configuração foi salva.",
+        "THEME": "Tema visual",
+        "SHOW_CAPTIONS": "Mostrar legendas"
+    },
+    "THEMES": {
+        "DARK_THEME": "Tema escuro",
+        "LIGHT_THEME": "Tema claro"
+    },
+    "CHANNELS": {
+        "SEARCH_CHANNEL": "Pesquisar canal",
+        "UPLOAD_OR_SELECT_OTHER_PLAYLIST": "Carregar ou selecionar outra lista de reprodução",
+        "ALL_CHANNELS": "Todos os canais",
+        "GROUPS": "Grupos",
+        "UNGROUPED": "Desagrupado",
+        "UNNAMED_CHANNEL": "Canal sem nome",
+        "FAVORITES": "Favoritos",
+        "NO_FAVORITES": "Ainda não há favoritos",
+        "USE_STAR_TO_FAVORITE": "Por favor, use o ícone 'estrela' para adicionar canais a esta lista.",
+        "REMOVE_FAVORITE": "Remover dos favoritos"
+    },
+    "TOP_MENU": {
+        "OPEN_CHANNELS_LIST": "Abrir lista de canais",
+        "TOGGLE_FAVORITE_FLAG": "Alternar sinalizador favorito",
+        "OPEN_EPG_LIST": "Abrir lista EPG"
+    },
+    "EPG": {
+        "NEXT_DAY": "Próximo dia",
+        "PREVIOUS_DAY": "Dia anterior",
+        "LIVE_NOW": "Ao vivo agora",
+        "LIVE_STREAM": "Transmissão ao vivo",
+        "TIMESHIFT_AVAILABLE": "A mudança de horário está disponível, clique para o player",
+        "EPG_NOT_AVAILABLE_DATE": "Ops, o EPG não está disponível para a data selecionada",
+        "EPG_NOT_AVAILABLE_CHANNEL_TITLE": "Ops, o EPG não está disponível para este canal.",
+        "EPG_NOT_AVAILABLE_CHANNEL_DESCRIPTION": "Por favor, adicione/altere o URL da lista EPG nas configurações do aplicativo.",
+        "FETCH_EPG": "Buscando dados EPG...",
+        "ERROR": "Ops, não foi possível carregar o EPG.",
+        "DOWNLOAD_SUCCESS": "O EPG foi baixado com sucesso.",
+        "PROGRAM_DIALOG": {
+            "PROGRAM_DETAILS": "Detalhes sobre o programa de TV",
+            "TITLE": "Título",
+            "CATEGORY": "Categoria",
+            "PARENTAL_RATING_SYSTEM": "Sistema de classificação de conteúdo de televisão",
+            "DESCRIPTION": "Descrição",
+            "LANGUAGE": "Linguagem",
+            "SHOW_PROGRAM_DETAILS": "Mostrar detalhes sobre este programa"
+        }
+    },
+    "LANGUAGES": {
+        "ENGLISH": "English",
+        "KOREAN": "한국어",
+        "RUSSIAN": "Русский",
+        "GERMAN": "Deutsch",
+        "SPANISH": "Español",
+        "CHINESE": "简体中文",
+        "FRENCH": "Français",
+        "PORTUGUES": "Português(BR)"
+    },
+    "YES": "Sim",
+    "NO": "Não"
+}

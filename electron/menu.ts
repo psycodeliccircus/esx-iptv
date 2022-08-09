@@ -95,7 +95,7 @@ export class AppMenu {
                     label: 'Buy me a coffee',
                     click: () =>
                         shell.openExternal(
-                            'https://www.buymeacoffee.com/4gray'
+                            'https://www.buymeacoffee.com/renildomarcio'
                         ),
                 },
                 {
@@ -113,7 +113,7 @@ export class AppMenu {
                                 __dirname,
                                 'build/assets/icons/icon.png'
                             ),
-                            copyright: 'Copyright (c) 2020-2021 4gray',
+                            copyright: 'Copyright (c) 2020-2022 ESX-IPTV',
                             package_json_dir: __dirname,
                         }),
                 },
