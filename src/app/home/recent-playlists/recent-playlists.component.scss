@@ -1,0 +1,34 @@
+.mat-list-base {
+    padding-top: 0;
+}
+
+.meta {
+    font-size: 12px !important;
+    color: #666;
+    margin-top: 2px !important;
+}
+
+::ng-deep .cdk-drag-preview .mat-list-item-content {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    box-sizing: border-box;
+    padding: 0 16px;
+    position: relative;
+    height: inherit;
+    width: 100%;
+    justify-content: space-between;
+
+    .mat-list-text {
+        display: flex;
+        flex-direction: column;
+        flex: auto;
+        box-sizing: border-box;
+        overflow: hidden;
+        padding-left: 16px;
+    }
+}
+
+.favorites-icon {
+    margin-left: 16px;
+}
