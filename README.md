@@ -1,10 +1,10 @@
 # ESX-IPTV - IPTV Player Application
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/psycodeliccircus/esx-iptv/electron/src/assets/icons/favicon.256x256.png" alt="ESX-IPTV icon" title="Free IPTV player application" />
+  <img src="https://raw.githubusercontent.com/psycodeliccircus/esx-iptv/main/src/assets/icons/favicon.256x256.png" alt="ESX-IPTV icon" title="Free IPTV player application" />
 </p>
 <p align="center">
-  <a href="https://github.com/psycodeliccircus/esx-iptv/releases"><img src="https://img.shields.io/github/release/psycodeliccircus/esx-iptv.svg?style=for-the-badge&logo=github" alt="Release"></a> <img alt="GitHub Workflow Status" src="https://img.shields.io/github/workflow/status/psycodeliccircus/esx-iptv/Build%20and%20release?style=for-the-badge"> <a href="https://github.com/psycodeliccircus/esx-iptv/releases"><img src="https://img.shields.io/github/downloads/psycodeliccircus/esx-iptv/total?style=for-the-badge&logo=github" alt="Releases"></a> <a href="https://codecov.io/gh/psycodeliccircus/esx-iptv"><img alt="Codecov" src="https://img.shields.io/codecov/c/github/psycodeliccircus/esx-iptv?style=for-the-badge"></a> <a href="https://twitter.com/renildomarcio"><img src="https://img.shields.io/badge/twitter-esx-iptv-blue?logo=twitter&style=for-the-badge" alt="Twitter"></a>
+  <a href="https://github.com/psycodeliccircus/esx-iptv/releases"><img src="https://img.shields.io/github/release/psycodeliccircus/esx-iptv.svg?style=for-the-badge&logo=github" alt="Release"></a> <img alt="GitHub Workflow Status" src="https://img.shields.io/github/workflow/status/psycodeliccircus/esx-iptv/Build%20and%20release?style=for-the-badge"> <a href="https://github.com/psycodeliccircus/esx-iptv/releases"><img src="https://img.shields.io/github/downloads/psycodeliccircus/esx-iptv/total?style=for-the-badge&logo=github" alt="Releases"></a> <a href="https://codecov.io/gh/psycodeliccircus/esx-iptv"><img alt="Codecov" src="https://img.shields.io/codecov/c/github/psycodeliccircus/esx-iptv?style=for-the-badge"></a> <a href="https://twitter.com/renildomarcio"><img src="https://img.shields.io/badge/twitter-esxiptv-blue?logo=twitter&style=for-the-badge" alt="Twitter"></a>
 </p>
 
 **ESX-IPTV** is a video player application that provides support for the playback of IPTV playlists (m3u, m3u8). The application allows to import playlists by using remote URLs or per file upload from the file system. Additionally there is a support of EPG information XMLTV-based which can be provided by URL.
