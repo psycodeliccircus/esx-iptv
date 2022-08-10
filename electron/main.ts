@@ -38,7 +38,7 @@ function createWindow(): BrowserWindow {
         frame: false,
         minWidth: 900,
         minHeight: 700,
-        title: 'esx-iptv',
+        title: 'ESX-IPTV',
     });
     attachTitlebarToWindow(win);
 
