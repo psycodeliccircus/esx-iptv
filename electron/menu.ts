@@ -47,7 +47,7 @@ export class AppMenu {
      */
     private getFileMenu(): MenuItem {
         return new MenuItem({
-            label: 'File',
+            label: 'Arquivos',
             submenu: [
                 {
                     label: 'Add playlist',
@@ -58,14 +58,14 @@ export class AppMenu {
                     type: 'separator',
                 },
                 {
-                    label: 'Settings',
+                    label: 'Configurações',
                     click: () => this.window.webContents.send(VIEW_SETTINGS),
                 },
                 {
                     type: 'separator',
                 },
                 {
-                    label: 'Exit',
+                    label: 'Sair',
                     click: () => app.quit(),
                 },
             ],
@@ -78,21 +78,21 @@ export class AppMenu {
      */
     private getHelpMenu(): MenuItem {
         return new MenuItem({
-            label: 'Help',
+            label: 'Ajudar',
             submenu: [
                 {
-                    label: 'What is new',
+                    label: 'O que há de novo?',
                     click: () => this.window.webContents.send(SHOW_WHATS_NEW),
                 },
                 {
-                    label: 'Report a bug',
+                    label: 'Report um bug',
                     click: () =>
                         shell.openExternal(
                             'https://github.com/psycodeliccircus/esx-iptv'
                         ),
                 },
                 {
-                    label: 'Buy me a coffee',
+                    label: 'Doações para o projeto',
                     click: () =>
                         shell.openExternal(
                             'https://www.buymeacoffee.com/renildomarcio'
@@ -106,7 +106,7 @@ export class AppMenu {
                     type: 'separator',
                 },
                 {
-                    label: 'About',
+                    label: 'Sobre',
                     click: () =>
                         openAboutWindow({
                             icon_path: path.join(

@@ -1,5 +1,5 @@
 <div fxFlex="100px">
-    <img src="./assets/icons/icon-tv-256.png" height="100" />
+    <img src="http://esx-iptv.vercel.app/assets/icons/icon-tv-256.png" height="100" />
 </div>
 <div fxFlex="100" fxLayoutAlign="start center">
     <div fxLayout="column">
@@ -24,7 +24,7 @@
     <mat-menu #menu="matMenu">
         <button mat-menu-item (click)="openSettings()">
             <mat-icon>settings</mat-icon>
-            <span>Settings</span>
+            <span>Configuração</span>
         </button>
         <mat-divider></mat-divider>
         <button
@@ -37,20 +37,20 @@
         </button>
         <button
             mat-menu-item
-            aria-label="Report a bug"
+            aria-label="Report um bug"
             (click)="openUrl('https://github.com/psycodeliccircus/esx-iptv/issues')"
         >
             <mat-icon>bug_report</mat-icon>
-            <span>Report a bug</span>
+            <span>Report um bug</span>
         </button>
         <mat-divider></mat-divider>
         <button
             mat-menu-item
-            aria-label="What is new?"
+            aria-label="O que tem de novo?"
             (click)="setDialogVisibility(true)"
         >
             <mat-icon>new_releases</mat-icon>
-            <span>What is new</span>
+            <span>Novidades</span>
         </button>
         <button
             mat-menu-item
@@ -58,7 +58,7 @@
             (click)="openAboutDialog()"
         >
             <mat-icon>info</mat-icon>
-            <span>About</span>
+            <span>Sobre</span>
         </button>
     </mat-menu>
 </ng-template>
