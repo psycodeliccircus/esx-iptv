@@ -40,7 +40,7 @@ import { DataService } from './data.service';
 export class PwaService extends DataService {
     /** Proxy URL to avoid CORS issues */
     corsProxyUrl = AppConfig.production
-        ? 'https://iptvnator-playlist-parser-api.vercel.app/parse?url='
+        ? 'https://esx-iptv.vercel.app/parse?url='
         : 'http://localhost:3000/parse?url=';
 
     /**
