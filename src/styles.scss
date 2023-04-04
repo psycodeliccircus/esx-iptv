@@ -1,17 +1,16 @@
 $material-icons-font-path: '~material-icons/iconfont/';
 
 /* You can add global styles to this file, and also import other style files */
-@import '~@angular/material/prebuilt-themes/indigo-pink.css';
-@import '~material-icons/iconfont/material-icons.scss';
-@import '~@angular/material/theming';
+@import '@angular/material/prebuilt-themes/indigo-pink.css';
+@import 'material-icons/iconfont/material-icons.scss';
+@import '@angular/material/theming';
 @import 'themes/';
-@import '~@yangkghjh/videojs-aspect-ratio-panel/dist/videojs-aspect-ratio-panel.css';
+@import '@yangkghjh/videojs-aspect-ratio-panel/dist/videojs-aspect-ratio-panel.css';
 
 @include mat-core();
 
 body,
 html {
-    background: #fff;
     user-select: none;
     margin: 0;
     padding: 0;
@@ -22,6 +21,7 @@ html {
 @media (display-mode: standalone) {
     body {
         overscroll-behavior-y: contain;
+        overflow: hidden;
     }
 }
 
@@ -81,8 +81,6 @@ textarea,
 }
 
 .cet-container {
-    height: calc(100vh);
-
     .video-js {
         height: calc(100vh - 82px) !important;
     }
@@ -94,5 +92,14 @@ textarea,
 
     .recent-playlists {
         height: calc(100vh - 152px - 28px) !important;
+    }
+
+    #groups-list,
+    #favorites-list {
+        height: calc(100vh - 148px) !important;
+    }
+
+    .scroll-viewport {
+        min-height: calc(100vh - 200px) !important;
     }
 }

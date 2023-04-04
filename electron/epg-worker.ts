@@ -7,7 +7,10 @@ import {
     EPG_ERROR,
     EPG_FETCH,
     EPG_FETCH_DONE,
+    EPG_FORCE_FETCH,
     EPG_GET_CHANNELS,
+    EPG_GET_CHANNELS_BY_RANGE,
+    EPG_GET_CHANNELS_BY_RANGE_RESPONSE,
     EPG_GET_CHANNELS_DONE,
     EPG_GET_PROGRAM,
     EPG_GET_PROGRAM_DONE,
@@ -20,7 +23,13 @@ let EPG_DATA: { channels: EpgChannel[]; programs: EpgProgram[] } = {
     channels: [],
     programs: [],
 };
+let EPG_DATA_MERGED: {
+    [id: string]: EpgChannel & { programs: EpgProgram[] };
+} = {};
 const loggerLabel = '[EPG Worker]';
+
+/** List with fetched EPG URLs */
+const fetchedUrls: string[] = [];
 
 /**
  * Fetches the epg data from the given url
@@ -69,20 +78,52 @@ const parseAndSetEpg = (xmlString) => {
         channels: [...EPG_DATA.channels, ...parsedEpg.channels],
         programs: [...EPG_DATA.programs, ...parsedEpg.programs],
     };
+    // map programs to channels
+    EPG_DATA_MERGED = convertEpgData();
     ipcRenderer.send(EPG_FETCH_DONE);
     console.log(loggerLabel, 'done, parsing was finished...');
 };
 
+const convertEpgData = () => {
+    const result: {
+        [id: string]: EpgChannel & { programs: EpgProgram[] };
+    } = {};
+
+    EPG_DATA?.programs?.forEach((program) => {
+        if (!result[program.channel]) {
+            // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
+            const channel = EPG_DATA?.channels?.find(
+                (channel) => channel.id === program.channel
+            ) as EpgChannel;
+            result[program.channel] = {
+                ...channel,
+                programs: [program],
+            };
+        } else {
+            result[program.channel] = {
+                ...result[program.channel],
+                programs: [...result[program.channel].programs, program],
+            };
+        }
+    });
+    return result;
+};
+
 // fetches epg data from the provided URL
-ipcRenderer.on(EPG_FETCH, (event, arg) => {
+ipcRenderer.on(EPG_FETCH, (event, epgUrl: string) => {
     console.log(loggerLabel, 'epg fetch command was triggered');
-    fetchEpgDataFromUrl(arg);
+    if (fetchedUrls.indexOf(epgUrl) > -1) {
+        ipcRenderer.send(EPG_FETCH_DONE);
+        return;
+    }
+    fetchedUrls.push(epgUrl);
+    fetchEpgDataFromUrl(epgUrl);
 });
 
 // returns the epg data for the provided channel name and date
 ipcRenderer.on(EPG_GET_PROGRAM, (event, args) => {
-    const channelName = args.channel.name;
-    const tvgId = args.channel.tvg?.id;
+    const channelName = args.channel?.name;
+    const tvgId = args.channel?.tvg?.id;
     if (!EPG_DATA || !EPG_DATA.channels) return;
     const foundChannel = EPG_DATA?.channels?.find((epgChannel) => {
         if (tvgId && tvgId === epgChannel.id) {
@@ -115,8 +156,20 @@ ipcRenderer.on(EPG_GET_PROGRAM, (event, args) => {
     }
 });
 
-ipcRenderer.on(EPG_GET_CHANNELS, (event, args) => {
+ipcRenderer.on(EPG_GET_CHANNELS, () => {
     ipcRenderer.send(EPG_GET_CHANNELS_DONE, {
         payload: EPG_DATA,
     });
+});
+
+ipcRenderer.on(EPG_GET_CHANNELS_BY_RANGE, (event, args) => {
+    ipcRenderer.send(EPG_GET_CHANNELS_BY_RANGE_RESPONSE, {
+        payload: Object.entries(EPG_DATA_MERGED)
+            .slice(args.skip, args.limit)
+            .map((entry) => entry[1]),
+    });
+});
+
+ipcRenderer.on(EPG_FORCE_FETCH, (event, url: string) => {
+    fetchEpgDataFromUrl(url);
 });

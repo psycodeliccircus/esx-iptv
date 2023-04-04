@@ -1,69 +1,78 @@
-<div fxFlex="100px">
-    <img src="http://esx-iptv.vercel.app/assets/icons/icon-tv-256.png" height="100" />
+<div class="logo">
+    <img src="./assets/icons/icon-tv-256.png" height="100" />
 </div>
-<div fxFlex="100" fxLayoutAlign="start center">
-    <div fxLayout="column">
-        <div fxFlex class="title">{{ title }}</div>
-        <div class="subtitle">{{ subtitle }}</div>
-    </div>
+<div class="main">
+    <div class="title">{{ title }}</div>
+    <div class="subtitle">{{ subtitle }}</div>
 </div>
-<div fxLayout="column" fxFlex="50px" fxLayoutAlign="center center">
+<div class="menu">
     <button
         *ngIf="isElectron; else pwaMenu"
         mat-icon-button
         (click)="openSettings()"
+        data-test-id="open-settings"
     >
         <mat-icon>settings</mat-icon>
     </button>
 </div>
 
 <ng-template #pwaMenu>
-    <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Open menu">
+    <button
+        mat-icon-button
+        [matMenuTriggerFor]="menu"
+        [attr.aria-label]="'MENU.OPEN' | translate"
+    >
         <mat-icon>menu</mat-icon>
     </button>
     <mat-menu #menu="matMenu">
-        <button mat-menu-item (click)="openSettings()">
-            <mat-icon>settings</mat-icon>
-            <span>Configuração</span>
-        </button>
-        <mat-divider></mat-divider>
+        <ng-container *ngIf="isHome">
+            <button
+                mat-menu-item
+                [attr.aria-label]="'MENU.SETTINGS_ARIA' | translate"
+                (click)="openSettings()"
+            >
+                <mat-icon>settings</mat-icon>
+                <span>{{ 'MENU.SETTINGS' | translate }}</span>
+            </button>
+            <mat-divider></mat-divider>
+        </ng-container>
         <button
             mat-menu-item
-            aria-label="Support ESX-IPTV on GitHub"
-            (click)="openUrl('https:///github.com/psycodeliccircus/esx-iptv')"
+            [attr.aria-label]="'MENU.SUPPORT_ARIA' | translate"
+            (click)="openUrl('https://github.com/psycodeliccircus/esx-iptv')"
         >
             <mat-icon>recommend</mat-icon>
             <span>GitHub</span>
         </button>
         <button
             mat-menu-item
-            aria-label="Report um bug"
+            [attr.aria-label]="'MENU.BUG_REPORT' | translate"
             (click)="openUrl('https://github.com/psycodeliccircus/esx-iptv/issues')"
         >
             <mat-icon>bug_report</mat-icon>
-            <span>Report um bug</span>
+            <span>{{ 'MENU.BUG_REPORT' | translate }}</span>
         </button>
         <mat-divider></mat-divider>
         <button
             mat-menu-item
-            aria-label="O que tem de novo?"
+            [attr.aria-label]="'MENU.WHAT_IS_NEW' | translate"
             (click)="setDialogVisibility(true)"
         >
             <mat-icon>new_releases</mat-icon>
-            <span>Novidades</span>
+            <span>{{ 'MENU.WHAT_IS_NEW' | translate }}</span>
         </button>
         <button
             mat-menu-item
-            aria-label="About this application"
+            [attr.aria-label]="'MENU.ABOUT_ARIA' | translate"
             (click)="openAboutDialog()"
         >
             <mat-icon>info</mat-icon>
-            <span>Sobre</span>
+            <span>{{ 'MENU.ABOUT' | translate }}</span>
         </button>
     </mat-menu>
 </ng-template>
 <ngx-whats-new
-    *ngIf="isDialogVisible$ | async"
+    *ngIf="!isElectron && isDialogVisible$ | async"
     (closeModal)="setDialogVisibility(false)"
     [items]="modals"
     [options]="options"

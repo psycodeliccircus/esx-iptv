@@ -1,3 +1,4 @@
+import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import {
     Component,
     ElementRef,
@@ -6,11 +7,16 @@ import {
     ViewChild,
 } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Store } from '@ngrx/store';
+import { TranslateService } from '@ngx-translate/core';
 import * as _ from 'lodash';
-import { map, Observable, skipWhile } from 'rxjs';
+import { map, skipWhile } from 'rxjs';
 import { Channel } from '../../../../../shared/channel.interface';
-import { ChannelQuery, ChannelStore } from '../../../state';
-
+import * as PlaylistActions from '../../../state/actions';
+import {
+    selectActivePlaylistId,
+    selectFavorites,
+} from '../../../state/selectors';
 @Component({
     selector: 'app-channel-list-container',
     templateUrl: './channel-list-container.component.html',
@@ -38,13 +44,6 @@ export class ChannelListContainerComponent {
     /** Selected channel */
     selected!: Channel;
 
-    /** List with favorited channels */
-    favorites$: Observable<Channel[]> = this.channelQuery.select((store) =>
-        this.channelQuery
-            .getAll()
-            .filter((channel) => store.favorites.includes(channel.id))
-    );
-
     /** Search term for channel filter */
     searchTerm: any = {
         name: '',
@@ -62,20 +61,31 @@ export class ChannelListContainerComponent {
     }
 
     /** ID of the current playlist */
-    playlistId$ = this.channelQuery.select().pipe(
-        skipWhile(
-            (store) => store.playlistId === '' || store.playlistId === undefined
-        ),
-        map((data) => data.playlistId)
-    );
+    playlistId$ = this.store
+        .select(selectActivePlaylistId)
+        .pipe(
+            skipWhile(
+                (playlistId) => playlistId === '' || playlistId === undefined
+            )
+        );
 
-    /**
-     * Creates an instance of ChannelListContainerComponent
-     */
+    /** List with favorites */
+    favorites$ = this.store
+        .select(selectFavorites)
+        .pipe(
+            map((favoriteChannelIds) =>
+                favoriteChannelIds.map((favoriteChannelId) =>
+                    this.channelList.find(
+                        (channel) => channel.id === favoriteChannelId
+                    )
+                )
+            )
+        );
+
     constructor(
-        private channelQuery: ChannelQuery,
-        private channelStore: ChannelStore,
-        private snackBar: MatSnackBar
+        private readonly store: Store,
+        private snackBar: MatSnackBar,
+        private translateService: TranslateService
     ) {}
 
     /**
@@ -84,7 +94,7 @@ export class ChannelListContainerComponent {
      */
     selectChannel(channel: Channel): void {
         this.selected = channel;
-        this.channelStore.setActiveChannel(channel);
+        this.store.dispatch(PlaylistActions.setActiveChannel({ channel }));
     }
 
     /**
@@ -94,8 +104,12 @@ export class ChannelListContainerComponent {
      */
     toggleFavoriteChannel(channel: Channel, clickEvent: MouseEvent): void {
         clickEvent.stopPropagation();
-        this.snackBar.open('Favorites were updated!', null, { duration: 2000 });
-        this.channelStore.updateFavorite(channel);
+        this.snackBar.open(
+            this.translateService.instant('CHANNELS.FAVORITES_UPDATED'),
+            null,
+            { duration: 2000 }
+        );
+        this.store.dispatch(PlaylistActions.updateFavorites({ channel }));
     }
 
     /**
@@ -105,5 +119,15 @@ export class ChannelListContainerComponent {
      */
     trackByFn(index: number, channel: Channel): string {
         return channel.id;
+    }
+
+    drop(event: CdkDragDrop<Channel[]>, favorites: Channel[]) {
+        moveItemInArray(favorites, event.previousIndex, event.currentIndex);
+        console.log(favorites);
+        this.store.dispatch(
+            PlaylistActions.setFavorites({
+                channelIds: favorites.map((item) => item.id),
+            })
+        );
     }
 }

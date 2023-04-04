@@ -8,22 +8,22 @@ import {
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
+import { provideMockStore } from '@ngrx/store/testing';
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { MockModule, MockPipe, MockProviders } from 'ng-mocks';
+import { NgxIndexedDBService } from 'ngx-indexed-db';
 import { NgxWhatsNewModule } from 'ngx-whats-new';
 import { of } from 'rxjs';
 import { AppComponent } from './app.component';
 import { DataService } from './services/data.service';
 import { ElectronServiceStub } from './services/electron.service.stub';
+import { PlaylistsService } from './services/playlists.service';
 import { SettingsService } from './services/settings.service';
 import { WhatsNewService } from './services/whats-new.service';
 import { WhatsNewServiceStub } from './services/whats-new.service.stub';
+import { Language } from './settings/language.enum';
 import { Theme } from './settings/theme.enum';
 import { STORE_KEY } from './shared/enums/store-keys.enum';
-
-class MatSnackBarStub {
-    open(): void {}
-}
 
 jest.spyOn(global.console, 'error').mockImplementation(() => {});
 
@@ -41,14 +41,19 @@ describe('AppComponent', () => {
             TestBed.configureTestingModule({
                 declarations: [AppComponent, MockPipe(TranslatePipe)],
                 providers: [
-                    { provide: MatSnackBar, useClass: MatSnackBarStub },
                     { provide: WhatsNewService, useClass: WhatsNewServiceStub },
-                    MockProviders(TranslateService),
-                    SettingsService, // TODO: stub
+                    MockProviders(
+                        TranslateService,
+                        PlaylistsService,
+                        NgxIndexedDBService,
+                        MatSnackBar
+                    ),
+                    SettingsService,
                     {
                         provide: DataService,
                         useClass: ElectronServiceStub,
                     },
+                    provideMockStore(),
                 ],
                 imports: [
                     MockModule(MatSnackBarModule),
@@ -67,6 +72,9 @@ describe('AppComponent', () => {
         translateService = TestBed.inject(TranslateService);
         whatsNewService = TestBed.inject(WhatsNewService);
         component = fixture.componentInstance;
+
+        // TODO: investigate in detail
+        component.triggerAutoUpdateMechanism = jest.fn();
         component.modals = [];
         fixture.detectChanges();
     });
@@ -77,7 +85,7 @@ describe('AppComponent', () => {
         const fixture = TestBed.createComponent(AppComponent);
         const app = fixture.debugElement.componentInstance;
         expect(app).toBeTruthy();
-        expect(component.commandsList.length).toEqual(5);
+        expect(component.DEFAULT_LANG).toEqual(Language.ENGLISH);
     });
 
     it('should init component', () => {
@@ -98,13 +106,17 @@ describe('AppComponent', () => {
         it('should set IPC listeners', () => {
             jest.spyOn(electronService, 'listenOn');
             component.setRendererListeners();
-            expect(electronService.listenOn).toHaveBeenCalledTimes(5);
+            expect(electronService.listenOn).toHaveBeenCalledTimes(
+                component.commandsList.length
+            );
         });
 
         it('should remove all ipc listeners on destroy', () => {
             jest.spyOn(electronService, 'removeAllListeners');
             component.ngOnDestroy();
-            expect(electronService.removeAllListeners).toHaveBeenCalledTimes(4);
+            expect(electronService.removeAllListeners).toHaveBeenCalledTimes(
+                component.commandsList.length
+            );
         });
 
         it('should navigate to the provided route', inject(

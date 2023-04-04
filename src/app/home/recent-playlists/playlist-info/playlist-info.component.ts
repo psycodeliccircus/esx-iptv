@@ -1,25 +1,46 @@
 /* eslint-disable @typescript-eslint/unbound-method */
-import { DatePipe } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 import { Component, Inject } from '@angular/core';
 import {
+    FormControl,
+    ReactiveFormsModule,
     UntypedFormBuilder,
-    UntypedFormControl,
     UntypedFormGroup,
-    Validators,
+    Validators
 } from '@angular/forms';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { PLAYLIST_SAVE_DETAILS } from '../../../../../shared/ipc-commands';
+import { MatButtonModule } from '@angular/material/button';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatDialogModule, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
+import { Store } from '@ngrx/store';
+import { TranslateModule } from '@ngx-translate/core';
+import { firstValueFrom } from 'rxjs';
 import { Playlist } from '../../../../../shared/playlist.interface';
 import { DataService } from '../../../services/data.service';
+import { PlaylistsService } from '../../../services/playlists.service';
+import { PlaylistMeta } from '../../../shared/playlist-meta.type';
+import * as PlaylistActions from '../../../state/actions';
 
 @Component({
     selector: 'app-playlist-info',
     templateUrl: './playlist-info.component.html',
     providers: [DatePipe],
+    imports: [
+        TranslateModule,
+        MatButtonModule,
+        MatIconModule,
+        MatInputModule,
+        MatCheckboxModule,
+        CommonModule,
+        ReactiveFormsModule,
+        MatDialogModule,
+    ],
+    standalone: true,
 })
 export class PlaylistInfoComponent {
     /** Flag that returns true if application runs in electron-based environment */
-    isElectron = this.electronService.isElectron;
+    isElectron = this.dataService.isElectron;
 
     /** Playlist object */
     playlist: Playlist;
@@ -27,18 +48,13 @@ export class PlaylistInfoComponent {
     /** Form group with playlist details */
     playlistDetails: UntypedFormGroup;
 
-    /**
-     * Creates an instance of the component and injects the selected playlist from the parent component
-     * @param datePipe
-     * @param formBuilder
-     * @param electronService
-     * @param playlist playlist object to show
-     */
     constructor(
         private datePipe: DatePipe,
         private formBuilder: UntypedFormBuilder,
-        private electronService: DataService,
-        @Inject(MAT_DIALOG_DATA) playlist: Playlist
+        private dataService: DataService,
+        @Inject(MAT_DIALOG_DATA) playlist: Playlist,
+        private playlistService: PlaylistsService,
+        private store: Store
     ) {
         this.playlist = playlist;
     }
@@ -49,36 +65,50 @@ export class PlaylistInfoComponent {
     ngOnInit(): void {
         this.playlistDetails = this.formBuilder.group({
             _id: this.playlist._id,
-            title: new UntypedFormControl(this.playlist.title, Validators.required),
+            title: new FormControl(this.playlist.title, Validators.required),
             userAgent: this.playlist.userAgent || '',
-            filename: new UntypedFormControl({
+            filename: new FormControl({
                 value: this.playlist.filename || '',
                 disabled: true,
             }),
-            count: new UntypedFormControl({
+            count: new FormControl({
                 value: this.playlist.count,
                 disabled: true,
             }),
-            importDate: new UntypedFormControl({
+            importDate: new FormControl({
                 value: this.datePipe.transform(this.playlist.importDate),
                 disabled: true,
             }),
-            url: new UntypedFormControl({ value: this.playlist.url, disabled: true }),
-            filePath: new UntypedFormControl({
+            url: new FormControl({
+                value: this.playlist.url,
+                disabled: true,
+            }),
+            filePath: new FormControl({
                 value: this.playlist.filePath,
                 disabled: true,
             }),
-            autoRefresh: new UntypedFormControl(this.playlist.autoRefresh),
+            autoRefresh: new FormControl(this.playlist.autoRefresh),
         });
     }
 
-    /**
-     * Saves updated playlist information
-     * @param data updated form data
-     */
-    saveChanges(
-        data: Pick<Playlist, '_id' | 'title' | 'userAgent' | 'autoRefresh'>
-    ): void {
-        this.electronService.sendIpcEvent(PLAYLIST_SAVE_DETAILS, data);
+    saveChanges(playlist: PlaylistMeta): void {
+        this.store.dispatch(PlaylistActions.updatePlaylistMeta({ playlist }));
+    }
+
+    async exportPlaylist() {
+        const playlistAsString = await firstValueFrom(
+            this.playlistService.getRawPlaylistById(this.playlist._id)
+        );
+        const element = document.createElement('a');
+        element.setAttribute(
+            'href',
+            'data:text/plain;charset=utf-8,' +
+                encodeURIComponent(playlistAsString)
+        );
+        element.setAttribute('download', this.playlist.title || 'exported.m3u');
+        element.style.display = 'none';
+        document.body.appendChild(element);
+        element.click();
+        document.body.removeChild(element);
     }
 }

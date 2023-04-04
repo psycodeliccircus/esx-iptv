@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
+import { RouterModule, Routes } from '@angular/router';
 
 const routes: Routes = [
     {
@@ -8,14 +8,26 @@ const routes: Routes = [
             import('./home/home.module').then((m) => m.HomeModule),
     },
     {
+        path: 'playlists',
+        loadChildren: () =>
+            import('./player/player.module').then((m) => m.PlayerModule),
+    },
+    {
         path: 'iptv',
         loadChildren: () =>
             import('./player/player.module').then((m) => m.PlayerModule),
     },
     {
-        path: 'settings',
+        path: 'playlists/:id',
         loadChildren: () =>
-            import('./settings/settings.module').then((m) => m.SettingsModule),
+            import('./player/player.module').then((m) => m.PlayerModule),
+    },
+    {
+        path: 'settings',
+        loadComponent: () =>
+            import('./settings/settings.component').then(
+                (c) => c.SettingsComponent
+            ),
     },
     {
         path: '**',
@@ -24,7 +36,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-    imports: [RouterModule.forRoot(routes, { relativeLinkResolution: 'legacy' })],
+    imports: [RouterModule.forRoot(routes, {})],
     exports: [RouterModule],
 })
 export class AppRoutingModule {}

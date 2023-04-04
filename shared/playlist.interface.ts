@@ -1,5 +1,3 @@
-import { ID } from '@datorama/akita';
-
 /**
  * An interface that describe the possible states of the playlist update/refresh process
  */
@@ -13,7 +11,6 @@ export enum PlaylistUpdateState {
  * Describes playlist interface
  */
 export interface Playlist {
-    id: ID;
     _id: string;
     title: string;
     filename: string;
@@ -21,6 +18,8 @@ export interface Playlist {
     importDate: string;
     lastUsage: string;
     favorites: string[];
+    items?: unknown[];
+    header?: unknown;
     count: number;
     url?: string;
     userAgent?: string;
@@ -29,4 +28,5 @@ export interface Playlist {
     updateDate?: number;
     updateState?: PlaylistUpdateState;
     position?: number;
+    isTemporary?: boolean;
 }

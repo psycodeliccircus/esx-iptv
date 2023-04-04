@@ -65,7 +65,8 @@
                 "UPDATE_FAILED": "Update fehlgeschlagen",
                 "AUTO_UPDATE": "Auto-update",
                 "AUTO_UPDATE_DESCRIPTION": "Wenn die Auto-Refresh-Funktion aktiviert ist, wird die Wiedergabeliste bei jedem Start der Anwendung automatisch aktualisiert.",
-                "CUSTOM_USER_AGENT": "Einige IPTV-Anbieter benötigen einen bestimmten 'User-Agent', um ihre Playlist abspielen zu können."
+                "CUSTOM_USER_AGENT": "Einige IPTV-Anbieter benötigen einen bestimmten 'User-Agent', um ihre Playlist abspielen zu können.",
+                "EXPORT_PLAYLIST": "Als m3u exportieren"
             },
             "UPDATED": "Aktualisiert am",
             "REFRESH": "Aktualisieren",
@@ -100,6 +101,7 @@
         "SPANISH": "Español",
         "CHINESE": "简体中文",
         "FRENCH": "Français",
+        "ITALIAN": "Italiano",
         "PORTUGUES": "Português(BR)"
     },
     "SETTINGS": {
@@ -128,8 +130,19 @@
     "TOP_MENU": {
         "OPEN_CHANNELS_LIST": "Senderliste öffnen",
         "OPEN_EPG_LIST": "TV-Guide (EPG) öffnen",
-        "TOGGLE_FAVORITE_FLAG": "Als Favoriten hinzufügen/entfernen"
+        "TOGGLE_FAVORITE_FLAG": "Als Favoriten hinzufügen/entfernen",
+        "OPEN_MULTI_EPG": "Open Multi-EPG view"
     },
     "NO": "Nein",
-    "YES": "Ja"
+    "YES": "Ja",
+    "MENU": {
+        "OPEN": "Menü öffnen",
+        "SUPPORT_ARIA": "ESX-IPTV auf GitHub unterstützen",
+        "SETTINGS": "Einstellungen",
+        "SETTINGS_ARIA": "Einstellungen öffnen",
+        "BUG_REPORT": "Fehler melden",
+        "WHAT_IS_NEW": "Was ist neu",
+        "ABOUT": "Über",
+        "ABOUT_ARIA": "Über die Anwendung"
+    }
 }

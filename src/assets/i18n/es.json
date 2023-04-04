@@ -96,7 +96,8 @@
     "TOP_MENU": {
         "OPEN_CHANNELS_LIST": "Open channels list",
         "TOGGLE_FAVORITE_FLAG": "Toggle favorite flag",
-        "OPEN_EPG_LIST": "Open EPG list"
+        "OPEN_EPG_LIST": "Open EPG list",
+        "OPEN_MULTI_EPG": "Open Multi-EPG view"
     },
     "EPG": {
         "NEXT_DAY": "Día siguiente",
@@ -128,8 +129,19 @@
         "SPANISH": "Español",
         "CHINESE": "简体中文",
         "FRENCH": "Français",
+        "ITALIAN": "Italiano",
         "PORTUGUES": "Português(BR)"
     },
     "YES": "Sí",
-    "NO": "No"
+    "NO": "No",
+    "MENU": {
+        "OPEN": "Open menu",
+        "SUPPORT_ARIA": "Support ESX-IPTV on GitHub",
+        "SETTINGS": "Settings",
+        "SETTINGS_ARIA": "Open settings",
+        "BUG_REPORT": "Report a bug",
+        "WHAT_IS_NEW": "What is new",
+        "ABOUT": "About",
+        "ABOUT_ARIA": "About the application"
+    }
 }

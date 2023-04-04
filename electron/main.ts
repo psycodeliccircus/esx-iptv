@@ -9,6 +9,10 @@ const {
     attachTitlebarToWindow,
 } = require('custom-electron-titlebar/main');
 const contextMenu = require('electron-context-menu');
+const Store = require('electron-store');
+const store = new Store();
+
+const WINDOW_BOUNDS = 'WINDOW_BOUNDS';
 
 setupTitlebar();
 let win: BrowserWindow | null = null;
@@ -33,12 +37,13 @@ function createWindow(): BrowserWindow {
         },
         resizable: true,
         darkTheme: true,
-        icon: path.join(__dirname, '../build/assets/icons/icon.png'),
+        icon: path.join(__dirname, '../dist/assets/icons/icon.png'),
         titleBarStyle: 'hidden',
         frame: false,
-        minWidth: 900,
-        minHeight: 700,
+        minWidth: 400,
+        minHeight: 500,
         title: 'ESX-IPTV',
+        ...store.get(WINDOW_BOUNDS),
     });
     attachTitlebarToWindow(win);
 
@@ -50,12 +55,16 @@ function createWindow(): BrowserWindow {
     } else {
         win.loadURL(
             url.format({
-                pathname: path.join(__dirname, '../build/index.html'),
+                pathname: path.join(__dirname, '../dist/index.html'),
                 protocol: 'file:',
                 slashes: true,
             })
         );
     }
+
+    win.on('close', () => {
+        store.set(WINDOW_BOUNDS, win?.getNormalBounds());
+    });
 
     // Emitted when the window is closed.
     win.on('closed', () => {
@@ -126,8 +135,15 @@ try {
         // On OS X it's common to re-create a window in the app when the
         // dock icon is clicked and there are no other windows open.
         if (win === null) {
-            createWindow();
+            win = createWindow();
+            const menu = new AppMenu(win);
+            Menu.setApplicationMenu(menu.getMenu());
+            api.setMainWindow(win);
         }
+    });
+
+    app.on('before-quit', () => {
+        store.set(WINDOW_BOUNDS, win?.getNormalBounds());
     });
 } catch (e) {
     // Catch Error

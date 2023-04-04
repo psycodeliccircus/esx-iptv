@@ -32,7 +32,8 @@
                 "UPDATE_FAILED": "Не удалось обновить плейлист",
                 "AUTO_UPDATE": "Автообновление",
                 "AUTO_UPDATE_DESCRIPTION": "Если активирована функция автообновления, список воспроизведения будет обновляться автоматически при каждом запуске приложения.",
-                "CUSTOM_USER_AGENT": "Некоторые IPTV провайдеры требуют указанние определенного пользовательского агента (User Agent) для воспроизведения своего плейлиста."
+                "CUSTOM_USER_AGENT": "Некоторые IPTV провайдеры требуют указанние определенного пользовательского агента (User Agent) для воспроизведения своего плейлиста.",
+                "EXPORT_PLAYLIST": "Экспортировать плейлист (m3u)"
             },
             "UPDATED": "Обновлен",
             "REFRESH": "Обновить плейлист",
@@ -47,7 +48,7 @@
         "FILE_UPLOAD": {
             "DRAG_DROP": "Перетащите файл в эту область",
             "OR": "или",
-            "CHOOSE_PLAYLIST": "Выберите плейлист"
+            "CHOOSE_PLAYLIST": "выберите плейлист"
         },
         "URL_UPLOAD": {
             "PLAYLIST_URL": "Ссылка на плейлист (*.m3u или *.m3u8)",
@@ -96,7 +97,8 @@
     "TOP_MENU": {
         "OPEN_CHANNELS_LIST": "Открыть список каналов",
         "TOGGLE_FAVORITE_FLAG": "Избранный",
-        "OPEN_EPG_LIST": "Открыть программу (EPG)"
+        "OPEN_EPG_LIST": "Открыть программу (EPG)",
+        "OPEN_MULTI_EPG": "Open Multi-EPG view"
     },
     "EPG": {
         "NEXT_DAY": "Следующий день",
@@ -128,8 +130,19 @@
         "SPANISH": "Español",
         "CHINESE": "简体中文",
         "FRENCH": "Français",
+        "ITALIAN": "Italiano",
         "PORTUGUES": "Português(BR)"
     },
     "NO": "Нет",
-    "YES": "Да"
+    "YES": "Да",
+    "MENU": {
+        "OPEN": "Открыть меню",
+        "SUPPORT_ARIA": "Поддержать ESX-IPTV на GitHub",
+        "SETTINGS": "Настройки",
+        "SETTINGS_ARIA": "Открыть настройки",
+        "BUG_REPORT": "Сообщить об ошибке",
+        "WHAT_IS_NEW": "Что нового?",
+        "ABOUT": "О приложении",
+        "ABOUT_ARIA": "О приложении"
+    }
 }

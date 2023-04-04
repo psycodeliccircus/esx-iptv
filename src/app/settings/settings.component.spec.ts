@@ -1,6 +1,10 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { UntypedFormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import {
+    FormsModule,
+    ReactiveFormsModule,
+    UntypedFormBuilder,
+} from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatDividerModule } from '@angular/material/divider';
@@ -12,20 +16,33 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
+import { provideMockStore } from '@ngrx/store/testing';
 import { StorageMap } from '@ngx-pwa/local-storage';
-import { TranslatePipe, TranslateService } from '@ngx-translate/core';
-import { MockComponent, MockModule, MockPipe } from 'ng-mocks';
+import {
+    TranslateModule,
+    TranslatePipe,
+    TranslateService,
+} from '@ngx-translate/core';
+import {
+    MockComponent,
+    MockModule,
+    MockPipe,
+    MockProvider,
+    MockProviders,
+} from 'ng-mocks';
 import { of } from 'rxjs';
-import { EPG_FETCH } from '../../../shared/ipc-commands';
-/* eslint-disable @typescript-eslint/unbound-method */
+import { EPG_FORCE_FETCH } from '../../../shared/ipc-commands';
 import { DataService } from '../services/data.service';
 import { ElectronServiceStub } from '../services/electron.service.stub';
-import { TranslateServiceStub } from './../../testing/translate.stub';
-import { HeaderComponent } from './../shared/components/header/header.component';
+import { HeaderComponent } from '../shared/components';
+import { SharedModule } from '../shared/shared.module';
 import { Language } from './language.enum';
 import { SettingsComponent } from './settings.component';
 import { VideoPlayer } from './settings.interface';
 import { Theme } from './theme.enum';
+
+import { NgxIndexedDBService } from 'ngx-indexed-db';
+import { PlaylistsService } from '../services/playlists.service';
 
 class MatSnackBarStub {
     open(): void {}
@@ -63,17 +80,16 @@ describe('SettingsComponent', () => {
                 ],
                 providers: [
                     UntypedFormBuilder,
+                    MockProvider(TranslateService),
                     { provide: MatSnackBar, useClass: MatSnackBarStub },
-                    {
-                        provide: TranslateService,
-                        useClass: TranslateServiceStub,
-                    },
                     { provide: DataService, useClass: ElectronServiceStub },
                     {
                         provide: Router,
                         useClass: MockRouter,
                     },
                     StorageMap,
+                    provideMockStore(),
+                    MockProviders(NgxIndexedDBService, PlaylistsService),
                 ],
                 imports: [
                     HttpClientTestingModule,
@@ -88,6 +104,8 @@ describe('SettingsComponent', () => {
                     MockModule(MatFormFieldModule),
                     MockModule(MatCheckboxModule),
                     MockModule(MatDividerModule),
+                    MockModule(TranslateModule),
+                    MockModule(SharedModule),
                 ],
             }).compileComponents();
         })
@@ -99,6 +117,7 @@ describe('SettingsComponent', () => {
         storage = TestBed.inject(StorageMap);
         router = TestBed.inject(Router);
         translate = TestBed.inject(TranslateService);
+
         component = fixture.componentInstance;
         fixture.detectChanges();
     });
@@ -168,10 +187,12 @@ describe('SettingsComponent', () => {
 
     it('should send epg fetch command', () => {
         jest.spyOn(electronService, 'sendIpcEvent');
-        component.fetchEpg(['']);
-        expect(electronService.sendIpcEvent).toHaveBeenCalledWith(EPG_FETCH, {
-            url: '',
-        });
+        const url = 'http://epg-url-here/data.xml';
+        component.refreshEpg(url);
+        expect(electronService.sendIpcEvent).toHaveBeenCalledWith(
+            EPG_FORCE_FETCH,
+            url
+        );
     });
 
     it('should navigate back to home page', () => {

@@ -16,45 +16,23 @@
     min-width: 400px;
 }
 
-.spacer {
-    flex: 1 1 auto;
+@media only screen and (max-width: 480px) {
+    .mat-drawer {
+        width: 200px;
+        min-width: 200px;
+    }
 }
 
-#playlists-navigation {
-    background-color: #000;
-    color: #fff;
-
-    .current-playlist {
+@media (prefers-color-scheme: dark) {
+    .mpv-player {
         display: flex;
+        margin-top: 50px;
+        flex-direction: column;
         align-items: center;
-        padding: 8px;
-    }
 
-    .playlist-info {
-        flex: 1;
-        max-width: 300px;
-
-        .name {
-            font-size: 1.1em;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-        }
-
-        .channels-count {
-            font-size: 0.8em;
-            color: #ccc;
+        img {
+            filter: invert(100%);
+            width: 400px;
         }
     }
-}
-
-.recent-playlists {
-    height: calc(100vh - 60px);
-    overflow: auto;
-    width: 100%;
-    display: block;
-}
-
-.electron {
-    height: calc(100vh - 85px) !important;
 }

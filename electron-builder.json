@@ -1,13 +1,17 @@
 {
+    "asar": true,
     "productName": "esx-iptv",
     "directories": {
         "output": "release/"
     },
     "files": [
         "**/*",
+        "dist",
         "!**/*.ts",
         "!*.code-workspace",
         "!LICENSE.md",
+        "!README.md",
+        "!CHANGELOG.md",
         "!package.json",
         "!package-lock.json",
         "!src/",
@@ -15,10 +19,16 @@
         "!hooks/",
         "!angular.json",
         "!tsconfig.json",
-        "!tslint.json"
+        "!tsconfig.*.json",
+        "!tslint.json",
+        "!*.png",
+        "!coverage",
+        "!e2e",
+        "!playwright-report",
+        "!test-report"
     ],
     "win": {
-        "icon": "build/assets/icons",
+        "icon": "dist/assets/icons",
         "compression": "maximum",
         "target": [
             {
@@ -28,32 +38,20 @@
         ]
     },
     "mac": {
-        "icon": "build/assets/icons/icon-1024.png",
+        "icon": "dist/assets/icons/icon-1024.png",
         "target": {
             "target": "dmg",
             "arch": ["universal"]
         }
     },
     "linux": {
-        "icon": "build/assets/icons",
+        "icon": "dist/assets/icons",
         "category": "Video",
         "target": [
-            {
-                "target": "AppImage",
-                "arch": ["x64", "ia32", "armv7l", "arm64"]
-            },
-            {
-                "target": "deb",
-                "arch": ["x64", "ia32", "armv7l", "arm64"]
-            },
-            {
-                "target": "rpm",
-                "arch": ["x64", "ia32", "arm64", "armv7l"]
-            },
-            {
-                "target": "Snap",
-                "arch": ["x64", "ia32", "arm64", "armv7l"]
-            }
+            "AppImage",
+            "Snap",
+            "deb",
+            "rpm"
         ]
     }
 }

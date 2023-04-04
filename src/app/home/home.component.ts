@@ -1,34 +1,16 @@
 import { Component, NgZone } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { Router } from '@angular/router';
-import { UploadFile } from 'ngx-uploader';
+import { Store } from '@ngrx/store';
+import { TranslateService } from '@ngx-translate/core';
 import {
     ERROR,
-    PLAYLIST_PARSE,
     PLAYLIST_PARSE_BY_URL,
     PLAYLIST_PARSE_RESPONSE,
-    PLAYLIST_PARSE_TEXT,
-    PLAYLIST_UPDATE_RESPONSE,
 } from '../../../shared/ipc-commands';
 import { Playlist } from '../../../shared/playlist.interface';
+import { getFilenameFromUrl } from '../../../shared/playlist.utils';
 import { DataService } from '../services/data.service';
-import { ChannelStore } from '../state';
-
-/** Type to describe meta data of a playlist */
-export type PlaylistMeta = Pick<
-    Playlist,
-    | 'count'
-    | 'title'
-    | 'filename'
-    | '_id'
-    | 'url'
-    | 'importDate'
-    | 'userAgent'
-    | 'filePath'
-    | 'updateDate'
-    | 'updateState'
-    | 'position'
->;
+import { addPlaylist, parsePlaylist } from '../state/actions';
 
 @Component({
     selector: 'app-home',
@@ -36,9 +18,6 @@ export type PlaylistMeta = Pick<
     styleUrls: ['./home.component.scss'],
 })
 export class HomeComponent {
-    /** Added playlists */
-    playlists: PlaylistMeta[] = [];
-
     /** Loading spinner state */
     isLoading = false;
 
@@ -47,44 +26,28 @@ export class HomeComponent {
         {
             id: PLAYLIST_PARSE_RESPONSE,
             execute: (response: { payload: Playlist }): void => {
-                this.channelStore.setPlaylist(response.payload);
-                this.navigateToPlayer();
-            },
-        },
-        {
-            id: ERROR,
-            execute: (response: { message: string; status: number }): void => {
-                this.isLoading = false;
-                this.showNotification(
-                    `Error: ${response.status} ${response.message}.`
+                this.store.dispatch(
+                    addPlaylist({
+                        playlist: response.payload,
+                    })
                 );
             },
         },
         {
-            id: PLAYLIST_UPDATE_RESPONSE,
-            execute: (response: { message: string }): void =>
-                this.showNotification(response.message),
+            id: ERROR,
+            execute: () => (this.isLoading = false),
         },
     ];
 
     listeners = [];
 
-    /**
-     * Creates an instanceof HomeComponent
-     * @param channelStore channels store
-     * @param electronService electron service
-     * @param ngZone angular ngZone module
-     * @param router angular router
-     * @param snackBar snackbar for notification messages
-     */
     constructor(
-        private electronService: DataService,
+        private dataService: DataService,
         private ngZone: NgZone,
-        private channelStore: ChannelStore,
-        private router: Router,
-        private snackBar: MatSnackBar
+        private snackBar: MatSnackBar,
+        private readonly store: Store,
+        private translateService: TranslateService
     ) {
-        // set all renderer listeners
         this.setRendererListeners();
     }
 
@@ -93,8 +56,8 @@ export class HomeComponent {
      */
     setRendererListeners(): void {
         this.commandsList.forEach((command) => {
-            if (this.electronService.isElectron) {
-                this.electronService.listenOn(command.id, (event, response) =>
+            if (this.dataService.isElectron) {
+                this.dataService.listenOn(command.id, (event, response) =>
                     this.ngZone.run(() => command.execute(response))
                 );
             } else {
@@ -103,7 +66,7 @@ export class HomeComponent {
                         command.execute(response.data);
                     }
                 };
-                this.electronService.listenOn(command.id, cb);
+                this.dataService.listenOn(command.id, cb);
                 this.listeners.push(cb);
             }
         });
@@ -111,11 +74,13 @@ export class HomeComponent {
 
     /**
      * Shows the filename of rejected file
-     * @param fileName name of the uploaded file
+     * @param filename name of the uploaded file
      */
-    rejectFile(fileName: string): void {
+    rejectFile(filename: string): void {
         this.showNotification(
-            `File was rejected, unsupported file format (${fileName}).`
+            this.translateService.instant('HOME.FILE_UPLOAD.REJECTED', {
+                filename,
+            })
         );
         this.isLoading = false;
     }
@@ -124,23 +89,19 @@ export class HomeComponent {
      * Parse and store uploaded playlist
      * @param payload
      */
-    handlePlaylist(payload: { uploadEvent: Event; file: UploadFile }): void {
+    handlePlaylist(payload: { uploadEvent: Event; file: File }): void {
         this.isLoading = true;
-        const result = (payload.uploadEvent.target as FileReader).result;
-        const array = (result as string).split('\n');
-        this.electronService.sendIpcEvent(PLAYLIST_PARSE, {
-            title: payload.file.name,
-            playlist: array,
-            path: (payload.file.nativeFile as any).path,
-        });
-    }
+        const playlist = (payload.uploadEvent.target as FileReader)
+            .result as string;
 
-    /**
-     * Navigates to the video player route
-     */
-    navigateToPlayer(): void {
-        this.isLoading = false;
-        this.router.navigateByUrl('/iptv', { skipLocationChange: true });
+        this.store.dispatch(
+            parsePlaylist({
+                uploadType: 'FILE',
+                playlist,
+                title: payload.file.name,
+                path: payload.file.path,
+            })
+        );
     }
 
     /**
@@ -149,8 +110,8 @@ export class HomeComponent {
      */
     sendPlaylistsUrl(playlistUrl: string): void {
         this.isLoading = true;
-        this.electronService.sendIpcEvent(PLAYLIST_PARSE_BY_URL, {
-            title: this.getLastUrlSegment(playlistUrl),
+        this.dataService.sendIpcEvent(PLAYLIST_PARSE_BY_URL, {
+            title: getFilenameFromUrl(playlistUrl),
             url: playlistUrl,
         });
     }
@@ -159,23 +120,15 @@ export class HomeComponent {
      * Sends IPC event to the renderer process to parse playlist
      * @param text playlist as string
      */
-    uploadAsText(text: string): void {
+    uploadAsText(playlist: string): void {
         this.isLoading = true;
-        this.electronService.sendIpcEvent(PLAYLIST_PARSE_TEXT, {
-            text,
-        });
-    }
-
-    /**
-     * Returns last segment (part after last slash "/") of the given URL
-     * @param value URL as string
-     */
-    getLastUrlSegment(value: string): string {
-        if (value && value.length > 1) {
-            return value.substr(value.lastIndexOf('/') + 1);
-        } else {
-            return '';
-        }
+        this.store.dispatch(
+            parsePlaylist({
+                uploadType: 'TEXT',
+                playlist,
+                title: 'Imported as text',
+            })
+        );
     }
 
     /**
@@ -193,9 +146,9 @@ export class HomeComponent {
      * Remove ipcRenderer listeners after component destroy
      */
     ngOnDestroy(): void {
-        if (this.electronService.isElectron) {
+        if (this.dataService.isElectron) {
             this.commandsList.forEach((command) =>
-                this.electronService.removeAllListeners(command.id)
+                this.dataService.removeAllListeners(command.id)
             );
         } else {
             this.listeners.forEach((listener) => {

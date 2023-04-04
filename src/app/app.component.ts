@@ -1,12 +1,17 @@
 import { Component, NgZone } from '@angular/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
+import { Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
 import { ModalWindow } from 'ngx-whats-new/lib/modal-window.interface';
+import { firstValueFrom } from 'rxjs';
 import * as semver from 'semver';
 import { IpcCommand } from '../../shared/ipc-command.class';
 import {
+    AUTO_UPDATE_PLAYLISTS,
     EPG_ERROR,
     EPG_FETCH_DONE,
+    ERROR,
     OPEN_FILE,
     SHOW_WHATS_NEW,
     VIEW_ADD_PLAYLIST,
@@ -14,13 +19,14 @@ import {
 } from '../../shared/ipc-commands';
 import { DataService } from './services/data.service';
 import { EpgService } from './services/epg.service';
+import { PlaylistsService } from './services/playlists.service';
 import { SettingsService } from './services/settings.service';
 import { WhatsNewService } from './services/whats-new.service';
 import { Language } from './settings/language.enum';
 import { Settings } from './settings/settings.interface';
 import { Theme } from './settings/theme.enum';
 import { STORE_KEY } from './shared/enums/store-keys.enum';
-
+import * as PlaylistActions from './state/actions';
 /**
  * AppComponent
  */
@@ -45,19 +51,24 @@ export class AppComponent {
         new IpcCommand(EPG_FETCH_DONE, () => this.epgService.onEpgFetchDone()),
         new IpcCommand(EPG_ERROR, () => this.epgService.onEpgError()),
         new IpcCommand(SHOW_WHATS_NEW, () => this.showWhatsNewDialog()),
+        new IpcCommand(ERROR, (response: { message: string; status: number }) =>
+            this.showErrorAsNotification(response)
+        ),
     ];
 
     /** Default language as fallback */
     DEFAULT_LANG = Language.ENGLISH;
 
-    /**
-     * Creates an instance of AppComponent
-     */
+    listeners = [];
+
     constructor(
         private electronService: DataService,
         private epgService: EpgService,
         private ngZone: NgZone,
+        private playlistService: PlaylistsService,
         private router: Router,
+        private store: Store,
+        private snackBar: MatSnackBar,
         private translate: TranslateService,
         private settingsService: SettingsService,
         private whatsNewService: WhatsNewService
@@ -83,28 +94,49 @@ export class AppComponent {
         }
     }
 
-    /**
-     * Starts all the functions to initialize the component
-     */
-    ngOnInit(): void {
+    ngOnInit() {
+        this.store.dispatch(PlaylistActions.loadPlaylists());
         this.translate.setDefaultLang(this.DEFAULT_LANG);
 
         this.setRendererListeners();
         this.initSettings();
         this.handleWhatsNewDialog();
+
+        this.triggerAutoUpdateMechanism();
+    }
+
+    async triggerAutoUpdateMechanism() {
+        if (this.electronService.isElectron) {
+            const playlistForAutoUpdate = await firstValueFrom(
+                this.playlistService.getPlaylistsForAutoUpdate()
+            );
+            if (playlistForAutoUpdate && playlistForAutoUpdate.length > 0)
+                this.electronService.sendIpcEvent(
+                    AUTO_UPDATE_PLAYLISTS,
+                    playlistForAutoUpdate
+                );
+        }
     }
 
     /**
      * Initializes all necessary listeners for the events from the renderer process
      */
     setRendererListeners(): void {
-        if (this.electronService.isElectron) {
-            this.commandsList.forEach((command) =>
+        this.commandsList.forEach((command) => {
+            if (this.electronService.isElectron) {
                 this.electronService.listenOn(command.id, () =>
                     this.ngZone.run((data) => command.callback(data))
-                )
-            );
-        }
+                );
+            } else {
+                const cb = (response) => {
+                    if (response.data.type === command.id) {
+                        command.callback(response.data);
+                    }
+                };
+                this.electronService.listenOn(command.id, cb);
+                this.listeners.push(cb);
+            }
+        });
     }
 
     /**
@@ -154,7 +186,7 @@ export class AppComponent {
         const actualVersion = this.electronService.getAppVersion();
         this.settingsService
             .getValueFromLocalStorage(STORE_KEY.Version)
-            .subscribe((version) => {
+            .subscribe((version: string) => {
                 const isNewVersion = semver.gt(
                     actualVersion,
                     version || '0.0.0'
@@ -199,13 +231,25 @@ export class AppComponent {
         this.setDialogVisibility(true);
     }
 
+    showErrorAsNotification(response: { message: string; status: number }) {
+        this.snackBar.open(
+            `Error: ${response.message} (Status: ${response.status})`,
+            null,
+            { duration: 4000 }
+        );
+    }
     /**
      * Removes all ipc command listeners on component destroy
      */
     ngOnDestroy(): void {
-        this.electronService.removeAllListeners(EPG_FETCH_DONE);
-        this.electronService.removeAllListeners(EPG_ERROR);
-        this.electronService.removeAllListeners(VIEW_ADD_PLAYLIST);
-        this.electronService.removeAllListeners(VIEW_SETTINGS);
+        if (this.electronService.isElectron) {
+            this.commandsList.forEach((command) =>
+                this.electronService.removeAllListeners(command.id)
+            );
+        } else {
+            this.listeners.forEach((listener) =>
+                window.removeEventListener('message', listener)
+            );
+        }
     }
 }

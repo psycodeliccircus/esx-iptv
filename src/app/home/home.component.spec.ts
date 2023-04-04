@@ -5,21 +5,20 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatTabsModule } from '@angular/material/tabs';
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
+import { Actions } from '@ngrx/effects';
+import { provideMockActions } from '@ngrx/effects/testing';
+import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { MockComponent, MockModule, MockPipe, MockProvider } from 'ng-mocks';
 import { NgxIndexedDBModule, NgxIndexedDBService } from 'ngx-indexed-db';
-import { UploadFile } from 'ngx-uploader';
-import { of } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { FileUploadComponent } from '../home/file-upload/file-upload.component';
 import { RecentPlaylistsComponent } from '../home/recent-playlists/recent-playlists.component';
 import { UrlUploadComponent } from '../home/url-upload/url-upload.component';
 import { DataService } from '../services/data.service';
 import { ElectronServiceStub } from '../services/electron.service.stub';
 import { HeaderComponent } from '../shared/components/header/header.component';
-import {
-    PLAYLIST_PARSE,
-    PLAYLIST_PARSE_BY_URL,
-} from './../../../shared/ipc-commands';
+import { PLAYLIST_PARSE_BY_URL } from './../../../shared/ipc-commands';
 import { HomeComponent } from './home.component';
 
 class MatSnackBarStub {
@@ -37,6 +36,8 @@ describe('HomeComponent', () => {
     let fixture: ComponentFixture<HomeComponent>;
     let electronService: DataService;
     let router: Router;
+    let mockStore: MockStore;
+    const actions$ = new Observable<Actions>();
 
     beforeEach(() => {
         TestBed.configureTestingModule({
@@ -64,6 +65,8 @@ describe('HomeComponent', () => {
                     provide: NgxIndexedDBService,
                     useClass: NgxIndexedDBServiceStub,
                 },
+                provideMockStore(),
+                provideMockActions(actions$),
             ],
         }).compileComponents();
     });
@@ -72,6 +75,9 @@ describe('HomeComponent', () => {
         fixture = TestBed.createComponent(HomeComponent);
         component = fixture.componentInstance;
         electronService = TestBed.inject(DataService);
+
+        mockStore = TestBed.inject(MockStore);
+        mockStore.setState({});
 
         router = TestBed.inject(Router);
         TestBed.inject(NgxIndexedDBService);
@@ -97,34 +103,19 @@ describe('HomeComponent', () => {
     });
 
     it('should send an event to the main process to parse a playlist', () => {
-        jest.spyOn(electronService, 'sendIpcEvent');
+        jest.spyOn(mockStore, 'dispatch');
         const title = 'my-list.m3u';
         const path = '/home/user/iptv/' + title;
         const playlistContent = 'test';
-        const file: UploadFile = {
-            nativeFile: { path },
+        const file: File = {
+            path,
             name: title,
-        } as unknown as UploadFile;
+        } as unknown as File;
         const uploadEvent: Event = {
             target: { result: playlistContent },
         } as unknown as Event;
         component.handlePlaylist({ file, uploadEvent });
-        expect(electronService.sendIpcEvent).toHaveBeenCalledWith(
-            PLAYLIST_PARSE,
-            { title, playlist: [playlistContent], path }
-        );
-    });
-
-    it('should return the last last segment from an url', () => {
-        expect(component.getLastUrlSegment('http://example.com')).toEqual(
-            'example.com'
-        );
-        expect(
-            component.getLastUrlSegment('http://example.com/playlist.m3u')
-        ).toEqual('playlist.m3u');
-        expect(
-            component.getLastUrlSegment('http://example.com/playlist.m3u/')
-        ).toEqual('');
+        expect(mockStore.dispatch).toHaveBeenCalledTimes(1);
     });
 
     it('should set IPC event listeners', () => {
@@ -139,16 +130,6 @@ describe('HomeComponent', () => {
         jest.spyOn(component, 'showNotification');
         component.rejectFile('wrong-file.txt');
         expect(component.showNotification).toHaveBeenCalledTimes(1);
-    });
-
-    it('should navigate to the player view', () => {
-        jest.spyOn(router, 'navigateByUrl');
-        component.navigateToPlayer();
-        expect(router.navigateByUrl).toHaveBeenCalledTimes(1);
-        expect(router.navigateByUrl).toHaveBeenCalledWith(
-            '/iptv',
-            expect.anything()
-        );
     });
 
     it('should remove all ipc listeners on destroy', () => {

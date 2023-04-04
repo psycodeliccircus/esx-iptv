@@ -1,5 +1,11 @@
 <mat-tab-group color="primary" backgroundColor="primary">
-    <mat-tab [label]="'CHANNELS.ALL_CHANNELS' | translate">
+    <mat-tab>
+        <ng-template mat-tab-label>
+            <mat-icon class="tab-icon">list</mat-icon>
+            <div class="tab-title">
+                {{ 'CHANNELS.ALL_CHANNELS' | translate }}
+            </div>
+        </ng-template>
         <mat-list>
             <mat-list-item>
                 <input
@@ -14,35 +20,38 @@
         <mat-divider></mat-divider>
         <mat-nav-list>
             <cdk-virtual-scroll-viewport itemSize="50" class="scroll-viewport">
-                <mat-list-item
+                <ng-container
                     *cdkVirtualFor="
-                        let channel of _channelList | filterBy: searchTerm;
+                        let channel of _channelList
+                            | filterBy: searchTerm.name:'name';
                         index as i;
                         trackBy: trackByFn
                     "
-                    [class.active]="selected?.id === channel.id"
-                    (click)="selectChannel(channel)"
                 >
-                    <div class="channel-logo" *ngIf="channel.tvg.logo">
-                        <img
-                            [src]="channel.tvg.logo"
-                            width="48"
-                            onerror="this.style.display='none'"
-                        />
-                    </div>
-                    <p matLine class="channel-name">
-                        {{
-                            i + 1 + '. ' + channel?.name ||
-                                ('CHANNELS.UNNAMED_CHANNEL' | translate)
-                        }}
-                    </p>
-                    <mat-divider></mat-divider>
-                </mat-list-item>
+                    <app-channel-list-item
+                        [name]="
+                            i +
+                            1 +
+                            '. ' +
+                            (channel?.name || 'CHANNELS.UNNAMED_CHANNEL'
+                                | translate)
+                        "
+                        [logo]="channel?.tvg?.logo"
+                        (clicked)="selectChannel(channel)"
+                        [selected]="selected?.id === channel.id"
+                    ></app-channel-list-item>
+                </ng-container>
             </cdk-virtual-scroll-viewport>
         </mat-nav-list>
     </mat-tab>
 
-    <mat-tab [label]="'CHANNELS.GROUPS' | translate">
+    <mat-tab>
+        <ng-template mat-tab-label>
+            <mat-icon class="tab-icon">category</mat-icon>
+            <div class="tab-title">
+                {{ 'CHANNELS.GROUPS' | translate }}
+            </div>
+        </ng-template>
         <mat-nav-list id="groups-list">
             <mat-accordion multi>
                 <ng-container *ngFor="let groups of groupedChannels | keyvalue">
@@ -57,30 +66,23 @@
                             ({{ groups.value.length }})
                         </mat-expansion-panel-header>
                         <ng-template matExpansionPanelContent>
-                            <mat-list-item
+                            <ng-container
                                 *ngFor="let channel of groups.value; index as i"
-                                [class.active]="selected?.id === channel.id"
-                                (click)="selectChannel(channel)"
                             >
-                                <div
-                                    class="channel-logo"
-                                    *ngIf="channel.tvg.logo"
-                                >
-                                    <img
-                                        [src]="channel.tvg.logo"
-                                        width="48"
-                                        onerror="this.style.display='none'"
-                                    />
-                                </div>
-                                <p matLine class="channel-name">
-                                    {{
-                                        i + 1 + '. ' + channel?.name ||
-                                            ('CHANNELS.UNNAMED_CHANNEL'
-                                                | translate)
-                                    }}
-                                </p>
-                                <mat-divider></mat-divider>
-                            </mat-list-item>
+                                <app-channel-list-item
+                                    [name]="
+                                        i +
+                                        1 +
+                                        '. ' +
+                                        (channel?.name ||
+                                            'CHANNELS.UNNAMED_CHANNEL'
+                                            | translate)
+                                    "
+                                    [logo]="channel?.tvg?.logo"
+                                    (clicked)="selectChannel(channel)"
+                                    [selected]="selected?.id === channel.id"
+                                ></app-channel-list-item>
+                            </ng-container>
                         </ng-template>
                     </mat-expansion-panel>
                 </ng-container>
@@ -88,43 +90,36 @@
         </mat-nav-list>
     </mat-tab>
 
-    <mat-tab
-        *ngIf="(playlistId$ | async) !== 'GLOBAL_FAVORITES'"
-        [label]="'CHANNELS.FAVORITES' | translate"
-    >
+    <mat-tab *ngIf="(playlistId$ | async) !== 'GLOBAL_FAVORITES'">
+        <ng-template mat-tab-label>
+            <mat-icon class="tab-icon">star</mat-icon>
+            <div class="tab-title">
+                {{ 'CHANNELS.FAVORITES' | translate }}
+            </div>
+        </ng-template>
         <mat-nav-list
+            cdkDropList
             *ngIf="favorites$ | async as favorites"
+            (cdkDropListDropped)="drop($event, favorites)"
             id="favorites-list"
         >
             <ng-container *ngIf="favorites.length > 0; else noFavorites">
-                <mat-list-item
+                <app-channel-list-item
                     *ngFor="let channel of favorites; index as i"
-                    [class.active]="selected?.id === channel.id"
-                    (click)="selectChannel(channel)"
-                >
-                    <div class="channel-logo" *ngIf="channel.tvg.logo">
-                        <img
-                            [src]="channel.tvg.logo"
-                            width="48"
-                            onerror="this.style.display='none'"
-                        />
-                    </div>
-                    <p matLine class="channel-name">
-                        {{
-                            i + 1 + '. ' + channel?.name ||
-                                ('CHANNELS.UNNAMED_CHANNEL' | translate)
-                        }}
-                    </p>
-                    <button
-                        mat-icon-button
-                        color="primary"
-                        [matTooltip]="'CHANNELS.REMOVE_FAVORITE' | translate"
-                        (click)="toggleFavoriteChannel(channel, $event)"
-                    >
-                        <mat-icon color="accent">star</mat-icon>
-                    </button>
-                    <mat-divider></mat-divider>
-                </mat-list-item>
+                    [name]="
+                        i +
+                        1 +
+                        '. ' +
+                        (channel?.name || 'CHANNELS.UNNAMED_CHANNEL'
+                            | translate)
+                    "
+                    [isDraggable]="true"
+                    [logo]="channel?.tvg?.logo"
+                    (clicked)="selectChannel(channel)"
+                    [selected]="selected?.id === channel.id"
+                    [showFavoriteButton]="true"
+                    (favoriteToggled)="toggleFavoriteChannel(channel, $event)"
+                ></app-channel-list-item>
             </ng-container>
             <ng-template #noFavorites>
                 <mat-list-item

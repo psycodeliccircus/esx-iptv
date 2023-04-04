@@ -47,26 +47,32 @@ export class AppMenu {
      */
     private getFileMenu(): MenuItem {
         return new MenuItem({
-            label: 'Arquivos',
+            label: 'File',
             submenu: [
                 {
                     label: 'Add playlist',
-                    click: () =>
-                        this.window.webContents.send(VIEW_ADD_PLAYLIST),
+                    click: () => {
+                        if (!this.window.isDestroyed())
+                            this.window.webContents.send(VIEW_ADD_PLAYLIST);
+                    },
                 },
                 {
                     type: 'separator',
                 },
                 {
-                    label: 'Configurações',
-                    click: () => this.window.webContents.send(VIEW_SETTINGS),
+                    label: 'Settings',
+                    click: () => {
+                        if (!this.window.isDestroyed())
+                            this.window.webContents.send(VIEW_SETTINGS);
+                    },
                 },
                 {
                     type: 'separator',
                 },
                 {
-                    label: 'Sair',
+                    label: 'Exit',
                     click: () => app.quit(),
+                    accelerator: 'CmdOrCtrl+Q',
                 },
             ],
         });
@@ -78,43 +84,51 @@ export class AppMenu {
      */
     private getHelpMenu(): MenuItem {
         return new MenuItem({
-            label: 'Ajudar',
+            label: 'Help',
             submenu: [
                 {
-                    label: 'O que há de novo?',
-                    click: () => this.window.webContents.send(SHOW_WHATS_NEW),
+                    label: 'What is new',
+                    click: () => {
+                        if (!this.window.isDestroyed())
+                            this.window.webContents.send(SHOW_WHATS_NEW);
+                    },
                 },
                 {
-                    label: 'Report um bug',
-                    click: () =>
+                    label: 'Report a bug',
+                    click: () => {
                         shell.openExternal(
                             'https://github.com/psycodeliccircus/esx-iptv'
-                        ),
+                        );
+                    },
                 },
                 {
-                    label: 'Doações para o projeto',
-                    click: () =>
+                    label: 'Buy me a coffee',
+                    click: () => {
                         shell.openExternal(
                             'https://www.buymeacoffee.com/renildomarcio'
-                        ),
+                        );
+                    },
                 },
                 {
                     label: 'Open DevTools',
-                    click: () => this.window.webContents.openDevTools(),
+                    click: () => {
+                        if (!this.window.isDestroyed())
+                            this.window.webContents.openDevTools();
+                    },
                 },
                 {
                     type: 'separator',
                 },
                 {
-                    label: 'Sobre',
+                    label: 'About',
                     click: () =>
                         openAboutWindow({
                             icon_path: path.join(
                                 __dirname,
-                                'build/assets/icons/icon.png'
+                                '../dist/assets/icons/icon.png'
                             ),
-                            copyright: 'Copyright (c) 2020-2022 ESX-IPTV',
-                            package_json_dir: __dirname,
+                            copyright: 'Copyright (c) 2020-2023 ESX-IPTV',
+                            package_json_dir: path.join(__dirname, '../'),
                         }),
                 },
             ],

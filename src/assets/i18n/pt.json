@@ -2,11 +2,11 @@
     "CLOSE": "Fechar",
     "HOME": {
         "TITLE": "ESX-IPTV",
-        "SUBTITLE": "Selecione uma lista de reprodução da lista ou adicione uma nova lista de reprodução via upload de arquivo ou via url",
+        "SUBTITLE": "Selecione uma lista de reprodução da lista ou adicione uma nova lista de reprodução por meio de upload de arquivo ou URL",
         "TABS": {
-            "RECENTLY_ADDED": "Playlist adds recentemente",
-            "FILE_UPLOAD": "Add via upload de arquivo",
-            "URL_UPLOAD": "Add via URL",
+            "RECENTLY_ADDED": "Listas de reprodução adicionadas recentemente",
+            "FILE_UPLOAD": "Adicionar via upload de arquivo",
+            "URL_UPLOAD": "Adicionar por URL",
             "TEXT_IMPORT": "Importar como texto"
         },
         "PLAYLISTS": {
@@ -16,42 +16,47 @@
             "ADDED_VIA_FILE": "Adicionado via upload de arquivo",
             "CHANNELS": "Canais",
             "ADDED": "Adicionado",
-            "SHOW_DETAILS": "Mostrar detalhes da playlist",
+            "SHOW_DETAILS": "Mostrar detalhes da lista de reprodução",
             "REMOVE": "Remover lista de reprodução",
             "INFO_DIALOG": {
                 "PLAYLIST_DETAILS": "Detalhes da lista de reprodução",
                 "TITLE": "Título",
-                "FROM_URL": "Adicionado a partir da URL",
-                "IMPORT_DATE": "Data de importação",
+                "FROM_URL": "Adicionado a partir do URL",
+                "IMPORT_DATE": "Data da importação",
                 "CHANNELS": "Número de canais",
                 "CLOSE": "Fechar",
                 "SAVE": "Salve",
                 "USER_AGENT": "Agente de usuário",
                 "ORIGINAL_FILENAME": "Nome do arquivo original",
-                "FILE_PATH": "Caminho do arquivo",
-                "UPDATE_FAILED": "Falha na última atualização da playlist",
+                "FILE_PATH": "Caminho de arquivo",
+                "UPDATE_FAILED": "A última atualização da lista de reprodução falhou",
                 "AUTO_UPDATE": "Atualização automática",
                 "AUTO_UPDATE_DESCRIPTION": "Se a função de atualização automática estiver ativada, a lista de reprodução será atualizada automaticamente sempre que o aplicativo for iniciado.",
-                "CUSTOM_USER_AGENT": "Alguns provedores de IPTV precisam de um agente de usuário específico para reproduzir sua lista de reprodução."
+                "CUSTOM_USER_AGENT": "Alguns provedores de IPTV precisam de um agente de usuário específico para reproduzir sua lista de reprodução.",
+                "EXPORT_PLAYLIST": "Exportar lista de reprodução como m3u"
             },
             "REMOVE_DIALOG": {
-                "TITLE": "Remover playlist",
-                "MESSAGE": "Tem certeza de que deseja excluir esta playlist completamente?"
+                "TITLE": "Remover lista de reprodução",
+                "MESSAGE": "Tem certeza de que deseja excluir completamente esta lista de reprodução?"
             },
             "UPDATED": "Atualizado",
             "REFRESH": "Atualizar lista de reprodução",
             "GLOBAL_FAVORITES": "Favoritos globais",
             "GLOBAL_FAVORITES_DESCRIPTION": "Lista de reprodução gerada automaticamente com favoritos agregados de todas as listas de reprodução",
-            "MY_PLAYLISTS": "Minha playlists"
+            "MY_PLAYLISTS": "Minhas listas de reprodução",
+            "MY_PLAYLISTS_SUBTITLE": "todas as listas de reprodução disponíveis",
+            "PLAYLIST_UPDATE_SUCCESS": "Sucesso! A playlist foi atualizada com sucesso."
         },
         "FILE_UPLOAD": {
-            "DRAG_DROP": "Arraste e solte arquivos aqui",
+            "DRAG_DROP": "Arraste e solte os arquivos aqui",
             "OR": "ou",
-            "CHOOSE_PLAYLIST": "Escolha uma playlist"
+            "CHOOSE_PLAYLIST": "escolha uma lista de reprodução",
+            "REJECTED": "O arquivo foi rejeitado, formato de arquivo incompatível {{filename}}."
         },
         "URL_UPLOAD": {
-            "PLAYLIST_URL": "Playlist URL (m3u, m3u8)",
-            "ADD_PLAYLIST": "Add playlist"
+            "PLAYLIST_URL": "URL da lista de reprodução (m3u, m3u8)",
+            "ADD_PLAYLIST": "Adicionar lista de reprodução",
+            "CORS_NOTE": "Nota: Para evitar problemas de CORS neste ponto, o aplicativo usa um serviço CORS Proxy público. Se você deseja carregar uma lista de reprodução com dados confidenciais, é melhor importá-la como um arquivo na guia adjacente."
         },
         "TEXT_IMPORT": {
             "LABEL": "Inserir lista de reprodução m3u(8) como texto",
@@ -59,11 +64,11 @@
         }
     },
     "SETTINGS": {
-        "TITLE": "Definições / ESX-IPTV",
+        "TITLE": "Configurações / ESX-IPTV",
         "SUBTITLE": "Alterar a configuração do aplicativo",
-        "DESCRIPTION": "Por favor, adapte as opções da lista abaixo e confirme com um botão salvar",
-        "EPG_URL_LABEL": "URL do EPG (*.xml ou *.xml.gz)",
-        "EPG_URL_PLACEHOLDER": "Insira um URL",
+        "DESCRIPTION": "Por favor, adapte as opções da lista abaixo e confirme com o botão salvar alterações",
+        "EPG_URL_LABEL": "EPG Url (*.xml or *.xml.gz)",
+        "EPG_URL_PLACEHOLDER": "Insira uma URL",
         "REFRESH_EPG": "Atualizar EPG",
         "VIDEO_PLAYER_LABEL": "Video player",
         "VIDEO_PLAYER_PLACEHOLDER": "Selecione uma opção",
@@ -75,41 +80,65 @@
         "LANGUAGE": "Idioma",
         "SETTINGS_SAVED": "Sucesso! A configuração foi salva.",
         "THEME": "Tema visual",
-        "SHOW_CAPTIONS": "Mostrar legendas"
+        "SHOW_CAPTIONS": "Mostrar legendas",
+        "ADD_EPG_SOURCE": "Adicionar fonte EPG",
+        "EPG_URL_ERROR": "O valor não é um URL válido",
+        "VIDEO_PLAYER_DESCRIPTION": "Selecione o reprodutor de vídeo padrão",
+        "LANGUAGE_DESCRIPTION": "Selecione o idioma do aplicativo",
+        "THEME_DESCRIPTION": "Selecione o tema visual do aplicativo",
+        "SHOW_CAPTIONS_DESCRIPTION": "Mostrar ou ocultar legendas por padrão",
+        "VERSION_DESCRIPTION": "Versão atual do aplicativo",
+        "EPG_NOTE": "Atualmente, o EPG está disponível apenas na versão eletrônica do ESX-IPTV.",
+        "EPG_NOTE_URL_TEXT": "Confira aqui",
+        "IMPORT_EXPORT_DATA": "Importar/exportar listas de reprodução",
+        "IMPORT_EXPORT_DATA_DESCRIPTION": "Exporte ou importe listas de reprodução no formato JSON usado no aplicativo.",
+        "IMPORT_DATA": "Importar",
+        "EXPORT_DATA": "Exportar",
+        "REMOVE_ALL": "Remover lista de reprodução",
+        "REMOVE_ALL_BUTTON": "Remover",
+        "REMOVE_ALL_DESCRIPTION": "Ele removerá todas as listas de reprodução existentes do aplicativo.",
+        "REMOVE_DIALOG": {
+            "TITLE": "Remover todas as listas de reprodução",
+            "MESSAGE": "Tem certeza de que deseja excluir todas as listas de reprodução do aplicativo?"
+        },
+        "IMPORT_ERROR": "Erro de importação, tente com outro arquivo.",
+        "PLAYLISTS_REMOVED": "Todas as listas de reprodução foram removidas."
     },
     "THEMES": {
-        "DARK_THEME": "Tema escuro",
-        "LIGHT_THEME": "Tema claro"
+        "DARK_THEME": "Tema Escuro",
+        "LIGHT_THEME": "Tema Claro"
     },
     "CHANNELS": {
-        "SEARCH_CHANNEL": "Pesquisar canal",
-        "UPLOAD_OR_SELECT_OTHER_PLAYLIST": "Carregar ou selecionar outra lista de reprodução",
+        "SEARCH_CHANNEL": "Procurar canal",
+        "UPLOAD_OR_SELECT_OTHER_PLAYLIST": "Carregue ou selecione outra lista de reprodução",
         "ALL_CHANNELS": "Todos os canais",
         "GROUPS": "Grupos",
         "UNGROUPED": "Desagrupado",
-        "UNNAMED_CHANNEL": "Canal sem nome",
+        "UNNAMED_CHANNEL": "Canal Sem Nome",
         "FAVORITES": "Favoritos",
         "NO_FAVORITES": "Ainda não há favoritos",
-        "USE_STAR_TO_FAVORITE": "Por favor, use o ícone 'estrela' para adicionar canais a esta lista.",
-        "REMOVE_FAVORITE": "Remover dos favoritos"
+        "USE_STAR_TO_FAVORITE": "Use o ícone de 'estrela' para adicionar canais a esta lista.",
+        "REMOVE_FAVORITE": "Remover dos favoritos",
+        "FAVORITES_UPDATED": "Os favoritos foram atualizados!"
     },
     "TOP_MENU": {
         "OPEN_CHANNELS_LIST": "Abrir lista de canais",
-        "TOGGLE_FAVORITE_FLAG": "Alternar sinalizador favorito",
-        "OPEN_EPG_LIST": "Abrir lista EPG"
+        "TOGGLE_FAVORITE_FLAG": "Alternar bandeira favorita",
+        "OPEN_EPG_LIST": "Abrir lista de EPG",
+        "OPEN_MULTI_EPG": "Abra a visualização Multi-EPG"
     },
     "EPG": {
         "NEXT_DAY": "Próximo dia",
         "PREVIOUS_DAY": "Dia anterior",
         "LIVE_NOW": "Ao vivo agora",
         "LIVE_STREAM": "Transmissão ao vivo",
-        "TIMESHIFT_AVAILABLE": "A mudança de horário está disponível, clique para o player",
+        "TIMESHIFT_AVAILABLE": "Timeshift está disponível, clique para tocar",
         "EPG_NOT_AVAILABLE_DATE": "Ops, o EPG não está disponível para a data selecionada",
-        "EPG_NOT_AVAILABLE_CHANNEL_TITLE": "Ops, o EPG não está disponível para este canal.",
-        "EPG_NOT_AVAILABLE_CHANNEL_DESCRIPTION": "Por favor, adicione/altere o URL da lista EPG nas configurações do aplicativo.",
-        "FETCH_EPG": "Buscando dados EPG...",
+        "EPG_NOT_AVAILABLE_CHANNEL_TITLE": "Ooops, EPG is not available for this channel.",
+        "EPG_NOT_AVAILABLE_CHANNEL_DESCRIPTION": "Adicione/altere o URL da lista EPG nas configurações do aplicativo.",
+        "FETCH_EPG": "Obtendo dados EPG...",
         "ERROR": "Ops, não foi possível carregar o EPG.",
-        "DOWNLOAD_SUCCESS": "O EPG foi baixado com sucesso.",
+        "DOWNLOAD_SUCCESS": "EPG foi baixado com sucesso.",
         "PROGRAM_DIALOG": {
             "PROGRAM_DETAILS": "Detalhes sobre o programa de TV",
             "TITLE": "Título",
@@ -128,8 +157,29 @@
         "SPANISH": "Español",
         "CHINESE": "简体中文",
         "FRENCH": "Français",
+        "ITALIAN": "Italiano",
         "PORTUGUES": "Português(BR)"
     },
     "YES": "Sim",
-    "NO": "Não"
+    "NO": "Não",
+    "MENU": {
+        "OPEN": "Abrir menu",
+        "SUPPORT_ARIA": "Suporte ESX-IPTV no GitHub",
+        "SETTINGS": "Configurações",
+        "SETTINGS_ARIA": "Abrir configurações",
+        "BUG_REPORT": "Reportar um erro",
+        "WHAT_IS_NEW": "O que há de novo",
+        "ABOUT": "Sobre",
+        "ABOUT_ARIA": "Sobre o aplicativo"
+    },
+    "ABOUT": {
+        "TITLE": "Sobre ESX-IPTV",
+        "DESCRIPTION": "Aplicativo reprodutor de IPTV de plataforma cruzada com vários recursos, como suporte para listas de reprodução m3u e m3u8, favoritos, guia de TV, arquivo/recuperação de TV e muito mais.",
+        "VERSION": "Versão",
+        "GITHUB_TOOLTIP": "Repositório ESX-IPTV no GitHub",
+        "BUY_ME_A_COFFEE_TOOLTIP": "Compre-me um café",
+        "TWITTER_TOOLTIP": "Compartilhar no Twitter"
+    },
+    "UPDATE_AVAILABLE": "Atualização disponível",
+    "REFRESH": "Atualizar"
 }
