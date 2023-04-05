@@ -1,7 +1,0 @@
-{
-    "name": "esx-iptv-electron",
-    "version": "0.11.0",
-    "main": "main.js",
-    "private": true,
-    "dependencies": {}
-  }

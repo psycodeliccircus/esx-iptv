@@ -7,7 +7,7 @@
     "version": 1,
     "newProjectRoot": "projects",
     "projects": {
-        "esx-iptv": {
+        "esxiptv": {
             "root": "",
             "sourceRoot": "src",
             "projectType": "application",
@@ -95,24 +95,24 @@
                 "serve": {
                     "builder": "@angular-builders/custom-webpack:dev-server",
                     "options": {
-                        "browserTarget": "esx-iptv:build"
+                        "browserTarget": "esxiptv:build"
                     },
                     "configurations": {
                         "dev": {
-                            "browserTarget": "esx-iptv:build:dev"
+                            "browserTarget": "esxiptv:build:dev"
                         },
                         "web": {
-                            "browserTarget": "esx-iptv:build:web"
+                            "browserTarget": "esxiptv:build:web"
                         },
                         "production": {
-                            "browserTarget": "esx-iptv:build:production"
+                            "browserTarget": "esxiptv:build:production"
                         }
                     }
                 },
                 "extract-i18n": {
                     "builder": "@angular-devkit/build-angular:extract-i18n",
                     "options": {
-                        "browserTarget": "esx-iptv:build"
+                        "browserTarget": "esxiptv:build"
                     }
                 },
                 "test": {
@@ -140,7 +140,7 @@
                 }
             }
         },
-        "esx-iptv-e2e": {
+        "esxiptv-e2e": {
             "root": "e2e",
             "projectType": "application",
             "architect": {

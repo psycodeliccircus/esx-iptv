@@ -127,7 +127,7 @@ export class AppMenu {
                                 __dirname,
                                 '../dist/assets/icons/icon.png'
                             ),
-                            copyright: 'Copyright (c) 2020-2023 ESX-IPTV',
+                            copyright: 'Copyright (c) 2020-2023 esx-iptv',
                             package_json_dir: path.join(__dirname, '../'),
                         }),
                 },

@@ -1,6 +1,6 @@
 {
     "asar": true,
-    "productName": "esx-iptv",
+    "productName": "ESX-IPTV",
     "directories": {
         "output": "release/"
     },

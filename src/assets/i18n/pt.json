@@ -2,24 +2,24 @@
     "CLOSE": "Fechar",
     "HOME": {
         "TITLE": "ESX-IPTV",
-        "SUBTITLE": "Selecione uma lista de reprodução da lista ou adicione uma nova lista de reprodução por meio de upload de arquivo ou URL",
+        "SUBTITLE": "Selecione uma playlist da lista ou adicione uma nova playlist por meio de upload de arquivo ou URL",
         "TABS": {
-            "RECENTLY_ADDED": "Listas de reprodução adicionadas recentemente",
-            "FILE_UPLOAD": "Adicionar via upload de arquivo",
-            "URL_UPLOAD": "Adicionar por URL",
+            "RECENTLY_ADDED": "playlists adicionadas recentemente",
+            "FILE_UPLOAD": "Add via upload de arquivo",
+            "URL_UPLOAD": "Add por URL",
             "TEXT_IMPORT": "Importar como texto"
         },
         "PLAYLISTS": {
-            "NO_PLAYLISTS": "Nenhuma lista de reprodução foi adicionada",
-            "ADD_FIRST": "Adicione sua primeira lista de reprodução da outra guia",
+            "NO_PLAYLISTS": "Nenhuma playlist foi adicionada",
+            "ADD_FIRST": "Adicione sua primeira playlist da outra guia",
             "ADDED_VIA_URL": "Adicionado via upload de URL. URL:",
             "ADDED_VIA_FILE": "Adicionado via upload de arquivo",
             "CHANNELS": "Canais",
             "ADDED": "Adicionado",
-            "SHOW_DETAILS": "Mostrar detalhes da lista de reprodução",
-            "REMOVE": "Remover lista de reprodução",
+            "SHOW_DETAILS": "Mostrar detalhes da playlist",
+            "REMOVE": "Remover playlist",
             "INFO_DIALOG": {
-                "PLAYLIST_DETAILS": "Detalhes da lista de reprodução",
+                "PLAYLIST_DETAILS": "Detalhes da playlist",
                 "TITLE": "Título",
                 "FROM_URL": "Adicionado a partir do URL",
                 "IMPORT_DATE": "Data da importação",
@@ -29,37 +29,37 @@
                 "USER_AGENT": "Agente de usuário",
                 "ORIGINAL_FILENAME": "Nome do arquivo original",
                 "FILE_PATH": "Caminho de arquivo",
-                "UPDATE_FAILED": "A última atualização da lista de reprodução falhou",
+                "UPDATE_FAILED": "A última atualização da playlist falhou",
                 "AUTO_UPDATE": "Atualização automática",
-                "AUTO_UPDATE_DESCRIPTION": "Se a função de atualização automática estiver ativada, a lista de reprodução será atualizada automaticamente sempre que o aplicativo for iniciado.",
-                "CUSTOM_USER_AGENT": "Alguns provedores de IPTV precisam de um agente de usuário específico para reproduzir sua lista de reprodução.",
-                "EXPORT_PLAYLIST": "Exportar lista de reprodução como m3u"
+                "AUTO_UPDATE_DESCRIPTION": "Se a função de atualização automática estiver ativada, a playlist será atualizada automaticamente sempre que o aplicativo for iniciado.",
+                "CUSTOM_USER_AGENT": "Alguns provedores de IPTV precisam de um agente de usuário específico para reproduzir sua playlist.",
+                "EXPORT_PLAYLIST": "Exportar playlist como m3u"
             },
             "REMOVE_DIALOG": {
-                "TITLE": "Remover lista de reprodução",
-                "MESSAGE": "Tem certeza de que deseja excluir completamente esta lista de reprodução?"
+                "TITLE": "Remover playlist",
+                "MESSAGE": "Tem certeza de que deseja excluir completamente esta playlist?"
             },
             "UPDATED": "Atualizado",
-            "REFRESH": "Atualizar lista de reprodução",
+            "REFRESH": "Atualizar playlist",
             "GLOBAL_FAVORITES": "Favoritos globais",
-            "GLOBAL_FAVORITES_DESCRIPTION": "Lista de reprodução gerada automaticamente com favoritos agregados de todas as listas de reprodução",
-            "MY_PLAYLISTS": "Minhas listas de reprodução",
-            "MY_PLAYLISTS_SUBTITLE": "todas as listas de reprodução disponíveis",
+            "GLOBAL_FAVORITES_DESCRIPTION": "playlist gerada automaticamente com favoritos agregados de todas as playlists",
+            "MY_PLAYLISTS": "Minhas playlists",
+            "MY_PLAYLISTS_SUBTITLE": "todas as playlists disponíveis",
             "PLAYLIST_UPDATE_SUCCESS": "Sucesso! A playlist foi atualizada com sucesso."
         },
         "FILE_UPLOAD": {
             "DRAG_DROP": "Arraste e solte os arquivos aqui",
             "OR": "ou",
-            "CHOOSE_PLAYLIST": "escolha uma lista de reprodução",
+            "CHOOSE_PLAYLIST": "escolha uma playlist",
             "REJECTED": "O arquivo foi rejeitado, formato de arquivo incompatível {{filename}}."
         },
         "URL_UPLOAD": {
-            "PLAYLIST_URL": "URL da lista de reprodução (m3u, m3u8)",
-            "ADD_PLAYLIST": "Adicionar lista de reprodução",
-            "CORS_NOTE": "Nota: Para evitar problemas de CORS neste ponto, o aplicativo usa um serviço CORS Proxy público. Se você deseja carregar uma lista de reprodução com dados confidenciais, é melhor importá-la como um arquivo na guia adjacente."
+            "PLAYLIST_URL": "URL da playlist (m3u, m3u8)",
+            "ADD_PLAYLIST": "Adicionar playlist",
+            "CORS_NOTE": "Nota: Para evitar problemas de CORS neste ponto, o aplicativo usa um serviço CORS Proxy público. Se você deseja carregar uma playlist com dados confidenciais, é melhor importá-la como um arquivo na guia adjacente."
         },
         "TEXT_IMPORT": {
-            "LABEL": "Inserir lista de reprodução m3u(8) como texto",
+            "LABEL": "Inserir playlist m3u(8) como texto",
             "BUTTON_LABEL": "Importar"
         }
     },
@@ -90,19 +90,19 @@
         "VERSION_DESCRIPTION": "Versão atual do aplicativo",
         "EPG_NOTE": "Atualmente, o EPG está disponível apenas na versão eletrônica do ESX-IPTV.",
         "EPG_NOTE_URL_TEXT": "Confira aqui",
-        "IMPORT_EXPORT_DATA": "Importar/exportar listas de reprodução",
-        "IMPORT_EXPORT_DATA_DESCRIPTION": "Exporte ou importe listas de reprodução no formato JSON usado no aplicativo.",
+        "IMPORT_EXPORT_DATA": "Importar/exportar playlists",
+        "IMPORT_EXPORT_DATA_DESCRIPTION": "Exporte ou importe playlists no formato JSON usado no aplicativo.",
         "IMPORT_DATA": "Importar",
         "EXPORT_DATA": "Exportar",
-        "REMOVE_ALL": "Remover lista de reprodução",
+        "REMOVE_ALL": "Remover playlist",
         "REMOVE_ALL_BUTTON": "Remover",
-        "REMOVE_ALL_DESCRIPTION": "Ele removerá todas as listas de reprodução existentes do aplicativo.",
+        "REMOVE_ALL_DESCRIPTION": "Ele removerá todas as playlists existentes do aplicativo.",
         "REMOVE_DIALOG": {
-            "TITLE": "Remover todas as listas de reprodução",
-            "MESSAGE": "Tem certeza de que deseja excluir todas as listas de reprodução do aplicativo?"
+            "TITLE": "Remover todas as playlists",
+            "MESSAGE": "Tem certeza de que deseja excluir todas as playlists do aplicativo?"
         },
         "IMPORT_ERROR": "Erro de importação, tente com outro arquivo.",
-        "PLAYLISTS_REMOVED": "Todas as listas de reprodução foram removidas."
+        "PLAYLISTS_REMOVED": "Todas as playlists foram removidas."
     },
     "THEMES": {
         "DARK_THEME": "Tema Escuro",
@@ -110,7 +110,7 @@
     },
     "CHANNELS": {
         "SEARCH_CHANNEL": "Procurar canal",
-        "UPLOAD_OR_SELECT_OTHER_PLAYLIST": "Carregue ou selecione outra lista de reprodução",
+        "UPLOAD_OR_SELECT_OTHER_PLAYLIST": "Carregue ou selecione outra playlist",
         "ALL_CHANNELS": "Todos os canais",
         "GROUPS": "Grupos",
         "UNGROUPED": "Desagrupado",
@@ -174,7 +174,7 @@
     },
     "ABOUT": {
         "TITLE": "Sobre ESX-IPTV",
-        "DESCRIPTION": "Aplicativo reprodutor de IPTV de plataforma cruzada com vários recursos, como suporte para listas de reprodução m3u e m3u8, favoritos, guia de TV, arquivo/recuperação de TV e muito mais.",
+        "DESCRIPTION": "Aplicativo reprodutor de IPTV de plataforma cruzada com vários recursos, como suporte para playlists m3u e m3u8, favoritos, guia de TV, arquivo/recuperação de TV e muito mais.",
         "VERSION": "Versão",
         "GITHUB_TOOLTIP": "Repositório ESX-IPTV no GitHub",
         "BUY_ME_A_COFFEE_TOOLTIP": "Compre-me um café",
