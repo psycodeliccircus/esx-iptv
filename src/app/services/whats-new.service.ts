@@ -253,7 +253,7 @@ export class WhatsNewService {
                 title: '🚀 MPV player integration',
                 html: 'Long-awaited mpv player support, which can now be selected from the settings. Before activating the player from the settings page, make sure it is installed on your system. For more details about mvp integration, check the <a target="_blank" href="https://github.com/psycodeliccircus/esx-iptv/wiki/What-is-mpv-video-player-and-how-to-install-it-on-different-operating-systems%3F">wiki page</a>.',
                 button: {
-                    text: 'YAY',
+                    text: 'OK',
                     textColor: '#ccc',
                     bgColor: '#111',
                 },
