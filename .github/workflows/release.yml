@@ -34,7 +34,7 @@ jobs:
         uses: actions/upload-release-asset@v1
         with:
           upload_url: ${{ env.UPLOAD_URL }}
-          asset_path: ./dist/*
+          asset_path: ./release/*
           asset_name: ${{ matrix.os }}
           asset_content_type: application/octet-stream
 
