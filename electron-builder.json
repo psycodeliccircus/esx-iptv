@@ -53,5 +53,14 @@
             "deb",
             "rpm"
         ]
-    }
+    },
+    "publish": [
+        {
+            "provider": "github",
+            "owner": "psycodeliccircus",
+            "repo": "esx-iptv",
+            "releaseType": "release",
+            "updaterCacheDirName": "esx-iptv-updater"
+        }
+    ]
 }

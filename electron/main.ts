@@ -1,9 +1,10 @@
 /* eslint-disable no-useless-catch */
-import { app, BrowserWindow, Menu } from 'electron';
+import { app, BrowserWindow, Menu, dialog } from 'electron';
 import * as path from 'path';
 import * as url from 'url';
 import { Api } from './api';
 import { AppMenu } from './menu';
+const { autoUpdater } = require('electron-updater');
 const {
     setupTitlebar,
     attachTitlebarToWindow,
@@ -120,6 +121,47 @@ try {
 
         // create hidden window for epg worker
         createEpgWorkerWindow();
+
+        // check for updates
+        autoUpdater.checkForUpdates();
+
+        autoUpdater.on('update-available', () => {
+            dialog.showMessageBox({
+                type: 'info',
+                title: 'Atualização disponível',
+                message: 'Uma nova versão está disponível. Deseja atualizar agora?',
+                buttons: ['Sim', 'Não'],
+                defaultId: 0,
+            }).then((result) => {
+                if (result.response === 0) {
+                    autoUpdater.downloadUpdate();
+                }
+            });
+        });
+
+        autoUpdater.on('update-not-available', () => {
+            dialog.showMessageBox({
+                type: 'info',
+                title: 'Sem atualizações',
+                message: 'Você já tem a versão mais recente do aplicativo.',
+                buttons: ['OK'],
+                defaultId: 0,
+            });
+        });
+
+        autoUpdater.on('update-downloaded', () => {
+            dialog.showMessageBox({
+                type: 'info',
+                title: 'Atualização pronta',
+                message: 'A nova versão foi baixada. Deseja instalá-la agora?',
+                buttons: ['Sim', 'Não'],
+                defaultId: 0,
+            }).then((result) => {
+                if (result.response === 0) {
+                    autoUpdater.quitAndInstall();
+                }
+            });
+        });
     });
 
     // Quit when all windows are closed.
@@ -149,3 +191,4 @@ try {
     // Catch Error
     throw e;
 }
+
