@@ -4,7 +4,7 @@
         "TITLE": "ESX-IPTV",
         "SUBTITLE": "Selecione uma playlist da lista ou adicione uma nova playlist por meio de upload de arquivo ou URL",
         "TABS": {
-            "RECENTLY_ADDED": "playlists adicionadas recentemente",
+            "RECENTLY_ADDED": "Playlists adds recentemente",
             "FILE_UPLOAD": "Add via upload de arquivo",
             "URL_UPLOAD": "Add por URL",
             "TEXT_IMPORT": "Importar como texto"

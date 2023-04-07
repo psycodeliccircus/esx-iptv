@@ -1,5 +1,5 @@
 /* eslint-disable no-useless-catch */
-import { app, BrowserWindow, Menu, dialog } from 'electron';
+import { app, BrowserWindow, Menu, shell } from 'electron';
 import * as path from 'path';
 import * as url from 'url';
 import { Api } from './api';
@@ -49,6 +49,13 @@ function createWindow(): BrowserWindow {
     attachTitlebarToWindow(win);
 
     require('@electron/remote/main').enable(win.webContents);
+
+    win.webContents.on('will-navigate', (event, url) => {
+        if (!url.startsWith('file://')) {
+            event.preventDefault();
+            shell.openExternal(url);
+        }
+    });
 
     if (serve) {
         win.webContents.openDevTools();
@@ -126,41 +133,49 @@ try {
         autoUpdater.checkForUpdates();
 
         autoUpdater.on('update-available', () => {
-            dialog.showMessageBox({
-                type: 'info',
-                title: 'Atualização disponível',
-                message: 'Uma nova versão está disponível. Deseja atualizar agora?',
-                buttons: ['Sim', 'Não'],
-                defaultId: 0,
-            }).then((result) => {
-                if (result.response === 0) {
-                    autoUpdater.downloadUpdate();
-                }
-            });
+            
         });
 
         autoUpdater.on('update-not-available', () => {
-            dialog.showMessageBox({
-                type: 'info',
-                title: 'Sem atualizações',
-                message: 'Você já tem a versão mais recente do aplicativo.',
-                buttons: ['OK'],
-                defaultId: 0,
-            });
+            win.webContents.executeJavaScript(`Swal.fire({
+        title: 'Atualizações',
+        html: 'Não há atualizações disponíveis.',
+        icon: 'error'
+    });`)
         });
 
         autoUpdater.on('update-downloaded', () => {
-            dialog.showMessageBox({
-                type: 'info',
-                title: 'Atualização pronta',
-                message: 'A nova versão foi baixada. Deseja instalá-la agora?',
-                buttons: ['Sim', 'Não'],
-                defaultId: 0,
-            }).then((result) => {
-                if (result.response === 0) {
-                    autoUpdater.quitAndInstall();
-                }
-            });
+            
+        });
+
+        interface DownloadProgress {
+            bytesPerSecond: number;
+            percent: number;
+            transferred: number;
+            total: number;
+        }
+
+        autoUpdater.on('download-progress', (progressObj: DownloadProgress) => {
+            win.webContents.executeJavaScript(`Swal.fire({
+        title: 'Baixando atualização',
+        html: 'Speed: ${progressObj.bytesPerSecond} - ${~~progressObj.percent}% [${progressObj.transferred}/${progressObj.total}',
+        allowOutsideClick: false,
+        onBeforeOpen: () => {
+            Swal.showLoading();
+        }
+    });`)
+        });
+
+        autoUpdater.on('update-downloaded', () => {
+            win.webContents.executeJavaScript(`Swal.fire({
+        title: 'Reiniciando o aplicativo',
+        html: 'Aguente firme, reiniciando o aplicativo para atualização!',
+        allowOutsideClick: false,
+        onBeforeOpen: () => {
+            Swal.showLoading();
+        }
+    });`)
+            autoUpdater.quitAndInstall();
         });
     });
 
