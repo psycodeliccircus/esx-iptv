@@ -29,7 +29,6 @@
     ],
     "win": {
         "icon": "dist/assets/icons",
-        "compression": "maximum",
         "target": [
             {
                 "target": "nsis",
