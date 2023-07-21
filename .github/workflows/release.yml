@@ -32,4 +32,4 @@ jobs:
           npx electron-builder --macos --publish always
           npx electron-builder --windows nsis:7z:squirrel --publish always
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
