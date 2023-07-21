@@ -1,0 +1,35 @@
+name: Release
+on:
+  create:
+    tags:
+      - v*
+  workflow_dispatch:
+jobs:
+  package:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out Git repository
+        uses: actions/checkout@v2
+
+      - name: Install Node.js, NPM and Yarn
+        uses: actions/setup-node@v2
+        with:
+          node-version: '18.10'
+
+      - name: Package Linux, macOS, and Windows
+        run: |
+          npm ci
+          npm run build
+          npx electron-builder --linux snap --armv7l --publish always
+          npx electron-builder --linux snap --x64 --publish always
+          npx electron-builder --linux deb rpm --x64 --publish always
+          npx electron-builder --linux deb --arm64 --publish always
+          npx electron-builder --linux deb --armv7l --publish always
+          npx electron-builder --linux AppImage --x64 --publish always
+          npx electron-builder --linux AppImage --arm64 --publish always
+          npx electron-builder --linux AppImage --armv7l --publish always
+          npx electron-builder --macos --publish always
+          npx electron-builder --windows nsis:7z:squirrel --publish always
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
