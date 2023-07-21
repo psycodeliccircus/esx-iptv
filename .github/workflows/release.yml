@@ -12,14 +12,11 @@ jobs:
       - name: Check out Git repository
         uses: actions/checkout@v2
 
-      - name: Install Node.js, NPM and Yarn
-        uses: actions/setup-node@v2
-        with:
-          node-version: '18.10'
+      - name: Install Dependencies
+        run: npm install
 
-      - name: Package Linux, macOS, and Windows
+      - name: Build and Package for Linux, macOS, and Windows
         run: |
-          npm ci
           npm run build
           npx electron-builder --linux snap --armv7l --publish always
           npx electron-builder --linux snap --x64 --publish always
